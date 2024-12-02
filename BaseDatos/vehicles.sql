@@ -3,7 +3,7 @@ CREATE TABLE vehicles (
     license_plate VARCHAR(20) NOT NULL UNIQUE, -- Placa única del vehículo
     brand VARCHAR(50) NOT NULL,               -- Marca del vehículo (e.g., Toyota, Ford)
     model VARCHAR(50) NOT NULL,               -- Modelo del vehículo (e.g., Corolla, F-150)
-    year INT NOT NULL,                        -- Año de fabricación
+    years INT NOT NULL,                        -- Año de fabricación
     category VARCHAR(20) NOT NULL,           -- Categoría (automóvil, camioneta, camión)
     fuel_type VARCHAR(20) NOT NULL,          -- Tipo de combustible (gasolina, diésel, eléctrico)
     capacity INT NOT NULL,                   -- Capacidad de pasajeros o carga
@@ -13,7 +13,7 @@ CREATE TABLE vehicles (
 );
 
 -- Ejemplo de inserción de datos
-INSERT INTO vehicles (license_plate, brand, model, year, category, fuel_type, capacity, daily_rate, status, last_service_date)
+INSERT INTO vehicles (license_plate, brand, model, years, category, fuel_type, capacity, daily_rate, status, last_service_date)
 VALUES
 ('ABC123', 'Toyota', 'Corolla', 2020, 'automóvil', 'gasolina', 5, 350.00, 'available', '2024-11-01'),
 ('DEF456', 'Ford', 'F-150', 2019, 'camioneta', 'diésel', 3, 500.00, 'available', '2024-10-15'),

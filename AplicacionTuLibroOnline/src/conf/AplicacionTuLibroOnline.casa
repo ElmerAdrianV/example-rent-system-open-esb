@@ -11,7 +11,7 @@
         <endpoint display-name="ServicioMensajeria" endpoint-name="EnvioPaquetesRole_partnerRole" file-path="serviciosVenta.bpel" interface-name="ns3:EnvioPaquetes" name="endpoint8" process-name="serviciosVenta" service-name="ns5:ServicioMensajeria"/>
     </endpoints>
     <service-units>
-        <service-engine-service-unit artifacts-zip="ServiciosVenta.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="AplicacionTuLibroOnline-ServiciosVenta" unit-name="ServiciosVenta" unknown="false" x="145" y="99">
+        <service-engine-service-unit artifacts-zip="ServiciosVenta.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="AplicacionTuLibroOnline-ServiciosVenta" unit-name="ServiciosVenta" unknown="false" x="148" y="99">
             <provides endpoint="endpoint5"/>
             <consumes endpoint="endpoint6"/>
             <consumes endpoint="endpoint7"/>
@@ -19,22 +19,22 @@
         </service-engine-service-unit>
         <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="AplicacionTuLibroOnline-sun-http-binding" unit-name="sun-http-binding">
             <ports>
-                <port x="67" y="39">
+                <port x="67" y="276">
                     <link xlink:href="../jbiServiceUnits/ServiciosVenta/DescriptorBPEL/VentaLibrosWSDL.wsdl#xpointer(/definitions/service[@name='VentaLibrosWSDLService']/port[@name='VentaLibrosWSDLPort'])" xlink:type="simple"/>
                     <consumes endpoint="endpoint4"/>
                     <provides endpoint="endpoint4"/>
                 </port>
-                <port x="0" y="-1">
+                <port x="67" y="197">
                     <link xlink:href="../jbiServiceUnits/ServiciosVenta/ServicioAlmacen/localhost_8080/TiendaElectronica/AlmacenService.wsdl#xpointer(/definitions/service[@name='AlmacenService']/port[@name='AlmacenPort'])" xlink:type="simple"/>
                     <consumes endpoint="endpoint1"/>
                     <provides endpoint="endpoint1"/>
                 </port>
-                <port x="0" y="-1">
+                <port x="67" y="118">
                     <link xlink:href="../jbiServiceUnits/ServiciosVenta/ServicioMensajeria/localhost_8080/MensajeriaExpress/EnvioPaquetesService.wsdl#xpointer(/definitions/service[@name='EnvioPaquetesService']/port[@name='EnvioPaquetesPort'])" xlink:type="simple"/>
                     <consumes endpoint="endpoint3"/>
                     <provides endpoint="endpoint3"/>
                 </port>
-                <port x="0" y="-1">
+                <port x="67" y="39">
                     <link xlink:href="../jbiServiceUnits/ServiciosVenta/ServicioPago/localhost_8080/PagoOnline/PasarelaPagoService.wsdl#xpointer(/definitions/service[@name='PasarelaPagoService']/port[@name='PasarelaPagoPort'])" xlink:type="simple"/>
                     <consumes endpoint="endpoint2"/>
                     <provides endpoint="endpoint2"/>
