@@ -4,7 +4,7 @@ CREATE TABLE reservations (
     vehicle_id INT NOT NULL,                 -- Identificador del vehículo (relación con vehicles)
     start_date DATE NOT NULL,                -- Fecha de inicio de la renta
     end_date DATE NOT NULL,                  -- Fecha de entrega del vehículo
-    report TEXT,                             -- Reporte detallado de la reservación
+    report  VARCHAR(1000) NOT NULL,                             -- Reporte detallado de la reservación
     CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
 );
