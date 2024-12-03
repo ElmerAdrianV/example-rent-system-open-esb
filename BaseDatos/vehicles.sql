@@ -1,3 +1,9 @@
+-- Conexión a la base de datos
+CONNECT 'jdbc:derby://localhost:1527/db_project_reservations;user=app;password=app';
+
+-- Eliminar tabla existente si es necesario
+DROP TABLE vehicles;
+
 CREATE TABLE vehicles (
     vehicle_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
     license_plate VARCHAR(20) NOT NULL UNIQUE, -- Placa única del vehículo
@@ -18,3 +24,5 @@ VALUES
 ('ABC123', 'Toyota', 'Corolla', 2020, 'automóvil', 'gasolina', 5, 350.00, 'available', '2024-11-01'),
 ('DEF456', 'Ford', 'F-150', 2019, 'camioneta', 'diésel', 3, 500.00, 'available', '2024-10-15'),
 ('GHI789', 'Tesla', 'Model S', 2021, 'automóvil', 'eléctrico', 5, 800.00, 'rented', '2024-11-20');
+-- Desconectar
+DISCONNECT;
