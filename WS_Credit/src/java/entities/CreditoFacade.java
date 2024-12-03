@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fachades;
+package entities;
 
-import entities.Credit;
+import entidades.Credito;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
@@ -14,12 +16,12 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author manri
+ * @author RGAMBOAH
  */
 @Stateless
-public class CreditFacade extends AbstractFacade<Credit> {
+public class CreditoFacade extends AbstractFacade<Credito> {
 
-    @PersistenceContext(unitName = "WS_CreditoPU")
+    @PersistenceContext(unitName = "WSCredito_195554PU")
     private EntityManager em;
 
     @Override
@@ -27,21 +29,22 @@ public class CreditFacade extends AbstractFacade<Credit> {
         return em;
     }
 
-    public CreditFacade() {
-        super(Credit.class);
+    public CreditoFacade() {
+        super(Credito.class);
     }
+    
     // ====================================================================================================
 
-    public boolean updateCredit(int id_clte,BigDecimal bd_monto_requerido) throws entities.ExcepNoCredit,entities.ExcepNoClient
+    public boolean actualizaCredito(int id_clte,BigDecimal bd_monto_requerido) throws entidades.ExcepNoCredito,entidades.ExcepNoExisteClte
     {
        boolean blnAutorizada = false;
        
        BigDecimal bd_monto_disponible;
         
-       Credit credito   = em.find(Credit.class, new Integer(id_clte), LockModeType.PESSIMISTIC_WRITE);
+       Credito credito   = em.find(Credito.class, new Integer(id_clte), LockModeType.PESSIMISTIC_WRITE);
        if(credito == null)
        {
-         throw new entities.ExcepNoClient(id_clte);
+         throw new entidades.ExcepNoExisteClte(id_clte);
        }
        else
        {  
@@ -70,7 +73,7 @@ public class CreditFacade extends AbstractFacade<Credit> {
          else
          {
            credito = null;  
-           throw new entities.ExcepNoCredit(id_clte);
+           throw new entidades.ExcepNoCredito(id_clte);
          }
        }
        
@@ -78,4 +81,6 @@ public class CreditFacade extends AbstractFacade<Credit> {
     }
    
     // ====================================================================================================
+
+    
 }
