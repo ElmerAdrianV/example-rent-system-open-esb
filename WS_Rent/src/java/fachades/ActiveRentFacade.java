@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ActiveRentFacade extends AbstractFacade<ActiveRent> {
 
-    @PersistenceContext(unitName = "WS_RentaPU")
+    @PersistenceContext(unitName = "WS_RentPU")
     private EntityManager em;
 
     @Override
