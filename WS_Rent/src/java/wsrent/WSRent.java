@@ -30,10 +30,10 @@ import javax.jws.WebParam;
 @WebService(serviceName = "WSRent")
 public class WSRent {
 
-    @Resource(mappedName="jms/SolicitudReservacionFactory")
+    @Resource(mappedName="jms/SolicitudRentFactory")
     private  ConnectionFactory connectionFactory;
 
-    @Resource(mappedName="java:app/jms/SolicitudReservation")
+    @Resource(mappedName="java:app/jms/SolicitudRent")
     private  Queue queue; 
     
     @EJB

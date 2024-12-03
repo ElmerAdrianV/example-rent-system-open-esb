@@ -15,15 +15,15 @@ import javax.jms.MessageListener;
  *
  * @author manri
  */
-@JMSDestinationDefinition(name = "java:app/jms/SolicitudReservation", interfaceName = "javax.jms.Queue", resourceAdapter = "jmsra", destinationName = "SolicitudReservation")
+@JMSDestinationDefinition(name = "java:app/jms/SolicitudRent", interfaceName = "javax.jms.Queue", resourceAdapter = "jmsra", destinationName = "SolicitudRent")
 @MessageDriven(activationConfig = {
-    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:app/jms/SolicitudReservation")
+    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:app/jms/SolicitudRent")
     ,
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
 })
-public class NewReservation implements MessageListener {
+public class NewRent implements MessageListener {
     
-    public NewReservation() {
+    public NewRent() {
     }
     
     @Override
