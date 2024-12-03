@@ -1,8 +1,7 @@
 -- Conexión a la base de datos
-CONNECT 'jdbc:derby://localhost:1527/bd_proyecto_coches;user=app;password=app';
+CONNECT 'jdbc:derby://localhost:1527/bd_project_reservations;user=app;password=app';
 
 -- Eliminar tabla existente si es necesario
-DROP TABLE credit;
 DROP TABLE reservations;
 DROP TABLE vehicles;
 DROP TABLE customers;
@@ -67,21 +66,6 @@ VALUES
 (2, 2, '2024-11-25', '2024-12-02', 'Renta de una Ford F-150 para mudanza. Cliente pidió extensión del seguro.'),
 (3, 3, '2024-11-30', '2024-12-05', 'Se rentó un Tesla Model S. Sin reportes adicionales.');
 
--- Crear tabla `credito` para referencias cruzadas de financiamiento
-CREATE TABLE credit (
-    credito_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
-    customer_id INT NOT NULL, -- Relación con customers
-    credit_amount DECIMAL(10, 2) NOT NULL, -- Cantidad de crédito asignada
-    credit_used DECIMAL(10, 2) DEFAULT 0,  -- Cantidad de crédito utilizada
-    CONSTRAINT fk_credit_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-);
-
--- Insertar datos en `credito`
-INSERT INTO credit (customer_id, credit_amount, credit_used)
-VALUES
-(1, 5000.00, 0.00),
-(2, 10000.00, 2000.00),
-(3, 7000.00, 1000.00);
 
 -- Desconectar
 DISCONNECT;
