@@ -1,5 +1,5 @@
 -- Conexión a la base de datos
-CONNECT 'jdbc:derby://localhost:1527/bd_proyecto_credit;user=app;password=app';
+CONNECT 'jdbc:derby://localhost:1527/db_project_credit;user=app;password=app';
 
 -- Eliminar tabla existente si es necesario
 DROP TABLE credit;
