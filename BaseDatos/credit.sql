@@ -15,7 +15,7 @@ CREATE  TABLE  credit
   address     VARCHAR(45) NOT NULL ,
   city_region VARCHAR(2) NOT NULL ,
   cc_number   VARCHAR(19) NOT NULL,
-  credito     DECIMAL(10,2) NOT NULL ,  
+  credito     DECIMAL(10,2) NOT NULL
   );
 
 INSERT INTO credit (name,email,phone,address,city_region,cc_number,credito) VALUES
