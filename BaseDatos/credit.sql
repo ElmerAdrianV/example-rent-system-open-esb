@@ -1,5 +1,5 @@
 -- Crear tabla `credito` para referencias cruzadas de financiamiento
-CREATE TABLE credito (
+CREATE TABLE credit (
     credito_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
     customer_id INT NOT NULL, -- Relación con customers
     credit_amount DECIMAL(10, 2) NOT NULL, -- Cantidad de crédito asignada
