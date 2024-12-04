@@ -111,4 +111,16 @@ public class WSReservation {
     public List<Reservations> listReservations() {
         return reservationFacade.findAll();
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "customerReservations")
+    public List<Reservations> customerReservations(@WebParam(name = "customerId") int customerId) {
+        
+        Customers customer = new Customers();
+        customer = customerFacade.find(customerId);
+        return customer.getReservationsList();
+    }
+    
 }
