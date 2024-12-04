@@ -97,7 +97,7 @@ public class WSReservation {
             return false;
         }
     }
-    
+
     @WebMethod(operationName = "listCustomers")
     public List<Customers> listCustomers() {
         return customerFacade.findAll();
@@ -112,11 +112,12 @@ public class WSReservation {
     public List<Reservations> listReservations() {
         return reservationFacade.findAll();
     }
-    
+
     /**
      * Web service operation
+     *
      * @param vehicleId
-     * @return 
+     * @return
      */
     @WebMethod(operationName = "getReportsByCar")
     public java.util.List<String> getReportsByCar(@WebParam(name = "vehicleId") int vehicleId) {
@@ -124,10 +125,21 @@ public class WSReservation {
         Vehicles vehicle = vehicleFacade.find(vehicleId);
         java.util.List<Reservations> reservations = reservationFacade.findByVehicle(vehicle);
         List<String> reportsListByVehicle = new ArrayList<String>();
-        for(Reservations res : reservations){
+        for (Reservations res : reservations) {
             reportsListByVehicle.add(res.getReport());
         }
 
         return reportsListByVehicle;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "customerReservations")
+    public List<Reservations> customerReservations(@WebParam(name = "customerId") int customerId) {
+
+        Customers customer = new Customers();
+        customer = customerFacade.find(customerId);
+        return customer.getReservationsList();
     }
 }
