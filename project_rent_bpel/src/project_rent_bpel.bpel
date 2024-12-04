@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="project_rent_bpel"
+    targetNamespace="http://enterprise.netbeans.org/bpel/project_rent_bpel/project_rent_bpel"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/project_rent_bpel/project_rent_bpel"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling">
+    <import namespace="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" location="project_rent_bpel.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" partnerLinkType="tns:project_rent_bpel" myRole="project_rent_bpelPortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="MisReservacionesOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intResponse"/>
+        <variable name="VerCochesOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:dosintsRequest"/>
+        <variable name="ChecarReportesOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intResponse"/>
+        <variable name="DevolverCocheOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intResponse"/>
+        <variable name="RecogerCocheOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intResponse"/>
+        <variable name="CancelarReservacionOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intResponse"/>
+        <variable name="ReservacionOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intResponse"/>
+        <variable name="MisReservacionesIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intRequest"/>
+        <variable name="VerCochesIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intRequest"/>
+        <variable name="ChecarReportesIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intRequest"/>
+        <variable name="DevolverCocheIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intfechastringRequest"/>
+        <variable name="RecogerCocheIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intRequest"/>
+        <variable name="CancelarReservacionIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:intRequest"/>
+        <variable name="ReservacionIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" messageType="tns:dosintsRequest"/>
+    </variables>
+    <sequence>
+        <pick name="Pick1">
+            <onMessage partnerLink="PartnerLink1" operation="reservacion" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" portType="tns:project_rent_bpelPortType" variable="ReservacionIn">
+                <sequence name="Sequence1">
+                    <assign name="Assign1"/>
+                    <reply name="Reply1" partnerLink="PartnerLink1" operation="reservacion" portType="tns:project_rent_bpelPortType" variable="ReservacionOut"/>
+                </sequence>
+            </onMessage>
+            <onMessage partnerLink="PartnerLink1" operation="cancelarReservacion" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" portType="tns:project_rent_bpelPortType" variable="CancelarReservacionIn">
+                <sequence name="Sequence2">
+                    <assign name="Assign2"/>
+                    <reply name="Reply2" partnerLink="PartnerLink1" operation="cancelarReservacion" portType="tns:project_rent_bpelPortType" variable="CancelarReservacionOut"/>
+                </sequence>
+            </onMessage>
+            <onMessage partnerLink="PartnerLink1" operation="recogerCoche" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" portType="tns:project_rent_bpelPortType" variable="RecogerCocheIn">
+                <sequence name="Sequence3">
+                    <assign name="Assign3"/>
+                    <reply name="Reply3" partnerLink="PartnerLink1" operation="recogerCoche" portType="tns:project_rent_bpelPortType" variable="RecogerCocheOut"/>
+                </sequence>
+            </onMessage>
+            <onMessage partnerLink="PartnerLink1" operation="devolverCoche" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" portType="tns:project_rent_bpelPortType" variable="DevolverCocheIn">
+                <sequence name="Sequence4">
+                    <assign name="Assign4"/>
+                    <reply name="Reply4" partnerLink="PartnerLink1" operation="devolverCoche" portType="tns:project_rent_bpelPortType" variable="DevolverCocheOut"/>
+                </sequence>
+            </onMessage>
+            <onMessage partnerLink="PartnerLink1" operation="checarReportes" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" portType="tns:project_rent_bpelPortType" variable="ChecarReportesIn">
+                <sequence name="Sequence5">
+                    <assign name="Assign5"/>
+                    <reply name="Reply5" partnerLink="PartnerLink1" operation="checarReportes" portType="tns:project_rent_bpelPortType" variable="ChecarReportesOut"/>
+                </sequence>
+            </onMessage>
+            <onMessage partnerLink="PartnerLink1" operation="verCoches" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" portType="tns:project_rent_bpelPortType" variable="VerCochesIn">
+                <sequence name="Sequence6">
+                    <assign name="Assign6"/>
+                    <reply name="Reply6" partnerLink="PartnerLink1" operation="verCoches" portType="tns:project_rent_bpelPortType" variable="VerCochesOut"/>
+                </sequence>
+            </onMessage>
+            <onMessage partnerLink="PartnerLink1" operation="misReservaciones" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" portType="tns:project_rent_bpelPortType" variable="MisReservacionesIn">
+                <sequence name="Sequence7">
+                    <assign name="Assign7"/>
+                    <reply name="Reply7" partnerLink="PartnerLink1" operation="misReservaciones" portType="tns:project_rent_bpelPortType" variable="MisReservacionesOut"/>
+                </sequence>
+            </onMessage>
+        </pick>
+    </sequence>
+</process>

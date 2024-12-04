@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/project_rent_bpel_schema"
+    xmlns:tns="http://xml.netbeans.org/schema/project_rent_bpel_schema"
+    elementFormDefault="qualified">
+    <xsd:complexType name="output_fault_ct">
+        <xsd:sequence>
+            <xsd:element name="fault_detail" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="input_2ints_ct">
+        <xsd:sequence>
+            <xsd:element name="int_param_01" type="xsd:int"></xsd:element>
+            <xsd:element name="int_param_02" type="xsd:int"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="output_int_ct">
+        <xsd:sequence>
+            <xsd:element name="response_int" type="xsd:int"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="input_1int_ct">
+        <xsd:sequence>
+            <xsd:element name="int_param_01" type="xsd:int"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="input_intfechastring_ct">
+        <xsd:sequence>
+            <xsd:element name="int_param_01" type="xsd:int"></xsd:element>
+            <xsd:element name="date_param_01" type="xsd:date"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="my_input_2ints" type="tns:input_2ints_ct"></xsd:element>
+    <xsd:element name="my_input_1int" type="tns:input_1int_ct"></xsd:element>
+    <xsd:element name="my_input_intfechastring" type="tns:input_intfechastring_ct"></xsd:element>
+    <xsd:element name="my_output_int" type="tns:output_int_ct"></xsd:element>
+    <xsd:element name="my_fault" type="tns:output_fault_ct"></xsd:element>
+</xsd:schema>
