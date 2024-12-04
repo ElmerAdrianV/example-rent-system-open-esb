@@ -1,5 +1,5 @@
 -- Conexión a la base de datos
-CONNECT 'jdbc:derby://localhost:1527/bd_project_reservations;user=app;password=app';
+CONNECT 'jdbc:derby://localhost:1527/db_project_reservations;user=app;password=app';
 
 -- Eliminar tabla existente si es necesario
 DROP TABLE reservations;
