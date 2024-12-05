@@ -6,6 +6,8 @@
 package wsrent;
 
 import entities.ActiveRent;
+import entities_reservations.Reservations;
+import fachades_reservations.ReservationsFacade;
 import fachades.ActiveRentFacade;
 import java.util.List;
 import java.util.logging.Level;
@@ -76,6 +78,14 @@ public class WSRent {
     @WebMethod(operationName = "count")
     public int count() {
         return ejbRef.count();
+    }
+    
+    @EJB
+    private ReservationsFacade reservationsFacade;
+    
+    @WebMethod(operationName = "listReservations")
+    public List<Reservations> listReservations() {
+        return reservationsFacade.findAll();
     }
 
     /**

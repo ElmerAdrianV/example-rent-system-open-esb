@@ -31,15 +31,11 @@ public class ReservationsFacade extends AbstractFacade<Reservations> {
     public ReservationsFacade() {
         super(Reservations.class);
     }
-    
-<<<<<<< HEAD
 
     public void create(Reservations reservation) {
         em.persist(reservation);  // Guarda la entidad en la base de datos
         em.flush();  // Sincroniza con la base de datos
     }
-    
-=======
       /**
      * Método para encontrar los reportes de los vehiculos
      *
@@ -51,7 +47,4 @@ public class ReservationsFacade extends AbstractFacade<Reservations> {
         query.setParameter("vehicleId", vehicle);
         return query.getResultList();
     }
-    
-    
->>>>>>> 0a15c23bdbe3e4866a358ce8e78e0278b9bd67c3
 }

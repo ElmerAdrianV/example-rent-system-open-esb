@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package pojo_ws_rent;
-
 /**
  *
  * @author manri
@@ -15,17 +14,14 @@ public class POJO_WS_Rent {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        java.util.List<wsrent.Reservations>  listaReser    = new java.util.ArrayList<>();
         
-        // Inicializar las listas de clientes y vehículos
-        List<wsreservation.Customers> listaCltes = listCustomers();
-        List<wsreservation.Vehicles> listaVehic = listVehicles();
-        
-        int num_cltes = listaCltes.size();
-        int num_vehicles = listaVehic.size();
+        listaReser = listReservations();
+        int num_reser = listaReser.size();
 
         // Verificar si las listas están vacías
-        if (num_cltes == 0 || num_vehicles == 0) {
-            System.err.println("Las listas de clientes o vehículos están vacías.");
+        if (num_reser == 0) {
+            System.err.println("Las listas de entrega está vacía.");
             return;
         }
 
@@ -38,38 +34,34 @@ public class POJO_WS_Rent {
         // Ejecutar el estrés
         for (int i = 0; i < vez; i++) {
             // Inicialización de variables
-            int customerId, vehicleId;
-            Date startDate, endDate;
+            int ReservationId;
             String report = "Reservation created via stress test";
-            int queClte, queVeh = 0;
-
-            // Seleccionar cliente aleatorio
-            queClte = (int) (num_cltes * Math.random());
-            customerId = listaCltes.get(queClte).getCustomerId();
+            int queRes = 0;
+            int idTda = (int) (Math.random()*10)+1;
+            String nombre = ("Nombre" + i);
+            String email = (nombre + "@hotmail.com");
+            long numero = (long) (Math.random() * 9_000_000_000L) + 1_000_000_000L;
+            String Snumero = String.valueOf(numero);
+            int CP = (int) (Math.random() * 90_000) + 10_000;
+            String direccion = ("Calle" + i + ", CP: " + CP);
+            String region = "México";
 
             // Seleccionar vehículo aleatorio
-            queVeh = (int) (num_vehicles * Math.random());
-            vehicleId = listaVehic.get(queVeh).getVehicleId();
-
-            // Generar fechas aleatorias para la reservación
-            long currentTime = System.currentTimeMillis();
-            startDate = new Date(currentTime + (long) (Math.random() * 1000000));  // Fecha de inicio aleatoria
-            endDate = new Date(startDate.getTime() + (long) (Math.random() * 1000000));  // Fecha de fin aleatoria
+            queRes = (int) (num_reser * Math.random());
+            ReservationId = listaReser.get(queRes).getReservationId();
 
             System.out.println("-----------------------------------------------");
-            System.out.println("Vez: " + (i + 1) + ", Clte: " + customerId + ", Vehículo: " + vehicleId);
+            System.out.println("Vez: " + (i + 1) + "Store: " + idTda + ", Reservation: " + ReservationId);
             System.out.println("-----------------------------------------------");
 
-            // Crear la reservación
-            XMLGregorianCalendar xmlStartDate = toXMLGregorianCalendar(startDate);
-            XMLGregorianCalendar xmlEndDate = toXMLGregorianCalendar(endDate);
-            int reservationId = createReservation(customerId, vehicleId, xmlStartDate, xmlEndDate, report);
+
+            boolean resp = solicitudEntrega(idTda, ReservationId, nombre, email, Snumero, direccion, region);
 
             // Mostrar el resultado de la creación de la reservación
-            if (reservationId != 0) {
-                System.out.println("El número de reservación es: " + reservationId);
+            if (resp) {
+                System.out.println("Su entrega esta lista");
             } else {
-                System.out.println("Hubo un error en la reservación");
+                System.out.println("Hubo un error en la entrega");
             }
 
             System.out.println("===============================================");
@@ -81,39 +73,17 @@ public class POJO_WS_Rent {
         System.out.println("Tiempo de respuesta total: " + dt + " milisegundos.");
     }
 
-    // Método que simula la consulta de clientes
-    private static List<wsreservation.Customers> listCustomers() {
-        // Este método debería devolver una lista de clientes desde la base de datos o API.
-        return new java.util.ArrayList<>();
-    }
-
-    // Método que simula la consulta de vehículos
-    private static List<wsreservation.Vehicles> listVehicles() {
-        // Este método debería devolver una lista de vehículos desde la base de datos o API.
-        return new java.util.ArrayList<>();
-    }
-
-    // Método que convierte una fecha en un XMLGregorianCalendar
-    private static XMLGregorianCalendar toXMLGregorianCalendar(Date date) {
-        if (date == null) {
-            return null;
-        }
-        try {
-            GregorianCalendar calendar = new GregorianCalendar();
-            calendar.setTime(date);
-            return javax.xml.datatype.DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
-        } catch (javax.xml.datatype.DatatypeConfigurationException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private static boolean solicitudEntrega(int idTda, int idReservation, java.lang.String name, java.lang.String email, java.lang.String phone, java.lang.String address, java.lang.String cityRegion) {
         wsrent.WSRent_Service service = new wsrent.WSRent_Service();
         wsrent.WSRent port = service.getWSRentPort();
         return port.solicitudEntrega(idTda, idReservation, name, email, phone, address, cityRegion);
     }
 
-
+    private static java.util.List<wsrent.Reservations> listReservations() {
+        wsrent.WSRent_Service service = new wsrent.WSRent_Service();
+        wsrent.WSRent port = service.getWSRentPort();
+        return port.listReservations();
+    }
+    
     
 }

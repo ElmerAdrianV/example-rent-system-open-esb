@@ -8,6 +8,8 @@
 
 <xs:element name="create" type="tns:create"/>
 
+<xs:element name="customers" type="tns:customers"/>
+
 <xs:element name="edit" type="tns:edit"/>
 
 <xs:element name="find" type="tns:find"/>
@@ -22,11 +24,19 @@
 
 <xs:element name="findResponse" type="tns:findResponse"/>
 
+<xs:element name="listReservations" type="tns:listReservations"/>
+
+<xs:element name="listReservationsResponse" type="tns:listReservationsResponse"/>
+
 <xs:element name="remove" type="tns:remove"/>
+
+<xs:element name="reservations" type="tns:reservations"/>
 
 <xs:element name="solicitudEntrega" type="tns:solicitudEntrega"/>
 
 <xs:element name="solicitudEntregaResponse" type="tns:solicitudEntregaResponse"/>
+
+<xs:element name="vehicles" type="tns:vehicles"/>
 
 <xs:complexType name="findAll">
 <xs:sequence/>
@@ -118,6 +128,56 @@
 <xs:complexType name="solicitudEntregaResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="listReservations">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="listReservationsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:reservations" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reservations">
+<xs:sequence>
+<xs:element name="customerId" type="tns:customers" minOccurs="0"/>
+<xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="report" type="xs:string" minOccurs="0"/>
+<xs:element name="reservationId" type="xs:int" minOccurs="0"/>
+<xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="vehicleId" type="tns:vehicles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="customers">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="bankAccount" type="xs:string" minOccurs="0"/>
+<xs:element name="customerId" type="xs:int" minOccurs="0"/>
+<xs:element name="dateOfBirth" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="licenseNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="nationality" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="vehicles">
+<xs:sequence>
+<xs:element name="brand" type="xs:string" minOccurs="0"/>
+<xs:element name="capacity" type="xs:int"/>
+<xs:element name="category" type="xs:string" minOccurs="0"/>
+<xs:element name="dailyRate" type="xs:decimal" minOccurs="0"/>
+<xs:element name="fuelType" type="xs:string" minOccurs="0"/>
+<xs:element name="lastServiceDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="licensePlate" type="xs:string" minOccurs="0"/>
+<xs:element name="model" type="xs:string" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="vehicleId" type="xs:int" minOccurs="0"/>
+<xs:element name="years" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

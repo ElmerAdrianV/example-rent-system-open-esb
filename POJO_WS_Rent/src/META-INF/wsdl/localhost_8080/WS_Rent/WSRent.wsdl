@@ -37,6 +37,12 @@
 <message name="edit">
 <part name="parameters" element="tns:edit"/>
 </message>
+<message name="listReservations">
+<part name="parameters" element="tns:listReservations"/>
+</message>
+<message name="listReservationsResponse">
+<part name="parameters" element="tns:listReservationsResponse"/>
+</message>
 <message name="solicitudEntrega">
 <part name="parameters" element="tns:solicitudEntrega"/>
 </message>
@@ -68,6 +74,10 @@
 </operation>
 <operation name="edit">
 <input wsam:Action="http://wsrent/WSRent/edit" message="tns:edit"/>
+</operation>
+<operation name="listReservations">
+<input wsam:Action="http://wsrent/WSRent/listReservationsRequest" message="tns:listReservations"/>
+<output wsam:Action="http://wsrent/WSRent/listReservationsResponse" message="tns:listReservationsResponse"/>
 </operation>
 <operation name="solicitudEntrega">
 <input wsam:Action="http://wsrent/WSRent/solicitudEntregaRequest" message="tns:solicitudEntrega"/>
@@ -129,6 +139,15 @@
 <input>
 <soap:body use="literal"/>
 </input>
+</operation>
+<operation name="listReservations">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
 </operation>
 <operation name="solicitudEntrega">
 <soap:operation soapAction=""/>
