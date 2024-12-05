@@ -2,6 +2,7 @@ package wsreservation;
 
 import fachades.*;
 import entities.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -110,5 +111,35 @@ public class WSReservation {
     @WebMethod(operationName = "listReservations")
     public List<Reservations> listReservations() {
         return reservationFacade.findAll();
+    }
+
+    /**
+     * Web service operation
+     *
+     * @param vehicleId
+     * @return
+     */
+    @WebMethod(operationName = "getReportsByCar")
+    public java.util.List<String> getReportsByCar(@WebParam(name = "vehicleId") int vehicleId) {
+        //TODO write your implementation code here:
+        Vehicles vehicle = vehicleFacade.find(vehicleId);
+        java.util.List<Reservations> reservations = reservationFacade.findByVehicle(vehicle);
+        List<String> reportsListByVehicle = new ArrayList<String>();
+        for (Reservations res : reservations) {
+            reportsListByVehicle.add(res.getReport());
+        }
+
+        return reportsListByVehicle;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "customerReservations")
+    public List<Reservations> customerReservations(@WebParam(name = "customerId") int customerId) {
+
+        Customers customer = new Customers();
+        customer = customerFacade.find(customerId);
+        return customer.getReservationsList();
     }
 }
