@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="project_rent_bpel" targetNamespace="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel" xmlns:ns="http://xml.netbeans.org/schema/project_rent_bpel_schema" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+    <types>
+        <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/project_rent_bpel/src/project_rent_bpel">
+            <xsd:import namespace="http://xml.netbeans.org/schema/project_rent_bpel_schema" schemaLocation="project_rent_bpel_schema.xsd"/>
+        </xsd:schema>
+    </types>
+    <message name="dosintsRequest">
+        <part name="part1" element="ns:my_input_2ints"/>
+    </message>
+    <message name="intResponse">
+        <part name="part1" element="ns:my_output_int"/>
+    </message>
+    <message name="intRequest">
+        <part name="part1" element="ns:my_input_1int"/>
+    </message>
+    <message name="intfechastringRequest">
+        <part name="part1" element="ns:my_input_intfechastring"/>
+    </message>
+    <message name="fault">
+        <part name="part1" element="ns:my_fault"/>
+    </message>
+    <portType name="project_rent_bpelPortType">
+        <operation name="reservacion">
+            <input name="input1" message="tns:dosintsRequest"/>
+            <output name="output1" message="tns:intResponse"/>
+        </operation>
+        <operation name="cancelarReservacion">
+            <input name="input2" message="tns:intRequest"/>
+            <output name="output2" message="tns:intResponse"/>
+            <fault name="fault1" message="tns:fault"/>
+        </operation>
+        <operation name="recogerCoche">
+            <input name="input3" message="tns:intRequest"/>
+            <output name="output3" message="tns:intResponse"/>
+            <fault name="fault1" message="tns:fault"/>
+        </operation>
+        <operation name="devolverCoche">
+            <input name="input4" message="tns:intfechastringRequest"/>
+            <output name="output4" message="tns:intResponse"/>
+            <fault name="fault1" message="tns:fault"/>
+        </operation>
+        <operation name="checarReportes">
+            <input name="input5" message="tns:intRequest"/>
+            <output name="output5" message="tns:intResponse"/>
+        </operation>
+        <operation name="verCoches">
+            <input name="input6" message="tns:intRequest"/>
+            <output name="output6" message="tns:dosintsRequest"/>
+        </operation>
+        <operation name="misReservaciones">
+            <input name="input7" message="tns:intRequest"/>
+            <output name="output7" message="tns:intResponse"/>
+        </operation>
+    </portType>
+    <plnk:partnerLinkType name="project_rent_bpel">
+        <!-- A partner link type is automatically generated when a new port type is added. Partner link types are used by BPEL processes. 
+In a BPEL process, a partner link represents the interaction between the BPEL process and a partner service. Each partner link is associated with a partner link type.
+A partner link type characterizes the conversational relationship between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="project_rent_bpelPortTypeRole" portType="tns:project_rent_bpelPortType"/>
+    </plnk:partnerLinkType>
+</definitions>
