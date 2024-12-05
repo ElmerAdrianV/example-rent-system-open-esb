@@ -89,8 +89,8 @@ public class WSRent {
      * @param city_region
      * @return 
      */
-    @WebMethod(operationName = "solicitudEnvio")
-    public boolean solicitudEnvio(@WebParam(name = "id_Tda")      int    id_Tda, 
+    @WebMethod(operationName = "solicitudEntrega")
+    public boolean solicitudEntrega(@WebParam(name = "id_Tda")      int    id_Tda, 
                                   @WebParam(name = "id_Reservation")   int    id_Reservation,
                                   @WebParam(name = "name")        String name, 
                                   @WebParam(name = "email")       String email, 
@@ -122,7 +122,7 @@ public class WSRent {
             messageProducer.send(message);
             
             Logger.getLogger(this.getClass().getName()).log(Level.INFO,
-                    "Encolando solicitud de reservación para:" + active_rent.getName() + ", para el pedido:" + active_rent.getIdReservation() + " co email:" + active_rent.getEmail());
+                    "Encolando solicitud de entrega para:" + active_rent.getName() + ", para el pedido:" + active_rent.getIdReservation() + " co email:" + active_rent.getEmail());
 
             messageProducer.close();
             connection.close();

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://wsreservation/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://wsreservation/">
+
+<xs:element name="cancelReservation" type="tns:cancelReservation"/>
+
+<xs:element name="cancelReservationResponse" type="tns:cancelReservationResponse"/>
+
+<xs:element name="createReservation" type="tns:createReservation"/>
+
+<xs:element name="createReservationResponse" type="tns:createReservationResponse"/>
+
+<xs:element name="customers" type="tns:customers"/>
+
+<xs:element name="listCustomers" type="tns:listCustomers"/>
+
+<xs:element name="listCustomersResponse" type="tns:listCustomersResponse"/>
+
+<xs:element name="listReservations" type="tns:listReservations"/>
+
+<xs:element name="listReservationsResponse" type="tns:listReservationsResponse"/>
+
+<xs:element name="listVehicles" type="tns:listVehicles"/>
+
+<xs:element name="listVehiclesResponse" type="tns:listVehiclesResponse"/>
+
+<xs:element name="reservations" type="tns:reservations"/>
+
+<xs:element name="vehicles" type="tns:vehicles"/>
+
+<xs:complexType name="cancelReservation">
+<xs:sequence>
+<xs:element name="reservationId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cancelReservationResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createReservation">
+<xs:sequence>
+<xs:element name="customerId" type="xs:int"/>
+<xs:element name="vehicleId" type="xs:int"/>
+<xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="report" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createReservationResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="listVehicles">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="listVehiclesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:vehicles" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="vehicles">
+<xs:sequence>
+<xs:element name="brand" type="xs:string" minOccurs="0"/>
+<xs:element name="capacity" type="xs:int"/>
+<xs:element name="category" type="xs:string" minOccurs="0"/>
+<xs:element name="dailyRate" type="xs:decimal" minOccurs="0"/>
+<xs:element name="fuelType" type="xs:string" minOccurs="0"/>
+<xs:element name="lastServiceDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="licensePlate" type="xs:string" minOccurs="0"/>
+<xs:element name="model" type="xs:string" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+<xs:element name="vehicleId" type="xs:int" minOccurs="0"/>
+<xs:element name="years" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="listReservations">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="listReservationsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:reservations" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="reservations">
+<xs:sequence>
+<xs:element name="customerId" type="tns:customers" minOccurs="0"/>
+<xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="report" type="xs:string" minOccurs="0"/>
+<xs:element name="reservationId" type="xs:int" minOccurs="0"/>
+<xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="vehicleId" type="tns:vehicles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="customers">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="bankAccount" type="xs:string" minOccurs="0"/>
+<xs:element name="customerId" type="xs:int" minOccurs="0"/>
+<xs:element name="dateOfBirth" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="licenseNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="nationality" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="listCustomers">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="listCustomersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:customers" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

@@ -29,4 +29,10 @@ public class ReservationsFacade extends AbstractFacade<Reservations> {
         super(Reservations.class);
     }
     
+
+    public void create(Reservations reservation) {
+        em.persist(reservation);  // Guarda la entidad en la base de datos
+        em.flush();  // Sincroniza con la base de datos
+    }
+    
 }
