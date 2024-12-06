@@ -7,9 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,33 +15,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author manri
  */
 @Entity
-@Table(name = "CUSTOMERS")
+@Table(name = "CUSTOMER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Customers.findAll", query = "SELECT c FROM Customers c")
-    , @NamedQuery(name = "Customers.findByCustomerId", query = "SELECT c FROM Customers c WHERE c.customerId = :customerId")
-    , @NamedQuery(name = "Customers.findByFirstName", query = "SELECT c FROM Customers c WHERE c.firstName = :firstName")
-    , @NamedQuery(name = "Customers.findByLastName", query = "SELECT c FROM Customers c WHERE c.lastName = :lastName")
-    , @NamedQuery(name = "Customers.findByNationality", query = "SELECT c FROM Customers c WHERE c.nationality = :nationality")
-    , @NamedQuery(name = "Customers.findByDateOfBirth", query = "SELECT c FROM Customers c WHERE c.dateOfBirth = :dateOfBirth")
-    , @NamedQuery(name = "Customers.findByLicenseNumber", query = "SELECT c FROM Customers c WHERE c.licenseNumber = :licenseNumber")
-    , @NamedQuery(name = "Customers.findByAddress", query = "SELECT c FROM Customers c WHERE c.address = :address")
-    , @NamedQuery(name = "Customers.findByBankAccount", query = "SELECT c FROM Customers c WHERE c.bankAccount = :bankAccount")})
-public class Customers implements Serializable {
+    @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
+    , @NamedQuery(name = "Customer.findByCustomerId", query = "SELECT c FROM Customer c WHERE c.customerId = :customerId")
+    , @NamedQuery(name = "Customer.findByFirstName", query = "SELECT c FROM Customer c WHERE c.firstName = :firstName")
+    , @NamedQuery(name = "Customer.findByLastName", query = "SELECT c FROM Customer c WHERE c.lastName = :lastName")
+    , @NamedQuery(name = "Customer.findByNationality", query = "SELECT c FROM Customer c WHERE c.nationality = :nationality")
+    , @NamedQuery(name = "Customer.findByDateOfBirth", query = "SELECT c FROM Customer c WHERE c.dateOfBirth = :dateOfBirth")
+    , @NamedQuery(name = "Customer.findByLicenseNumber", query = "SELECT c FROM Customer c WHERE c.licenseNumber = :licenseNumber")
+    , @NamedQuery(name = "Customer.findByAddress", query = "SELECT c FROM Customer c WHERE c.address = :address")
+    , @NamedQuery(name = "Customer.findByBankAccount", query = "SELECT c FROM Customer c WHERE c.bankAccount = :bankAccount")})
+public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -86,17 +82,15 @@ public class Customers implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "BANK_ACCOUNT")
     private String bankAccount;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private List<Reservations> reservationsList;
 
-    public Customers() {
+    public Customer() {
     }
 
-    public Customers(Integer customerId) {
+    public Customer(Integer customerId) {
         this.customerId = customerId;
     }
 
-    public Customers(Integer customerId, String firstName, String lastName, String nationality, Date dateOfBirth, String licenseNumber, String address, String bankAccount) {
+    public Customer(Integer customerId, String firstName, String lastName, String nationality, Date dateOfBirth, String licenseNumber, String address, String bankAccount) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -171,15 +165,6 @@ public class Customers implements Serializable {
         this.bankAccount = bankAccount;
     }
 
-    @XmlTransient
-    public List<Reservations> getReservationsList() {
-        return reservationsList;
-    }
-
-    public void setReservationsList(List<Reservations> reservationsList) {
-        this.reservationsList = reservationsList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -190,10 +175,10 @@ public class Customers implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Customers)) {
+        if (!(object instanceof Customer)) {
             return false;
         }
-        Customers other = (Customers) object;
+        Customer other = (Customer) object;
         if ((this.customerId == null && other.customerId != null) || (this.customerId != null && !this.customerId.equals(other.customerId))) {
             return false;
         }

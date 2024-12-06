@@ -5,7 +5,7 @@
  */
 package fachades;
 
-import entities.Customers;
+import entities.Customer;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author manri
  */
 @Stateless
-public class CustomersFacade extends AbstractFacade<Customers> {
+public class CustomersFacade extends AbstractFacade<Customer> {
 
     @PersistenceContext(unitName = "WS_ReservationPU")
     private EntityManager em;
@@ -26,7 +26,7 @@ public class CustomersFacade extends AbstractFacade<Customers> {
     }
 
     public CustomersFacade() {
-        super(Customers.class);
+        super(Customer.class);
     }
     
 }

@@ -5,7 +5,7 @@
  */
 package fachades;
 
-import entities.Vehicles;
+import entities.Vehicle;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author manri
  */
 @Stateless
-public class VehiclesFacade extends AbstractFacade<Vehicles> {
+public class VehicleFacade extends AbstractFacade<Vehicle> {
 
     @PersistenceContext(unitName = "WS_ReservationPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class VehiclesFacade extends AbstractFacade<Vehicles> {
         return em;
     }
 
-    public VehiclesFacade() {
-        super(Vehicles.class);
+    public VehicleFacade() {
+        super(Vehicle.class);
     }
     
 }
