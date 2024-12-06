@@ -1,4 +1,4 @@
-CONNECT 'jdbc:derby://localhost:1527/db_project_active_rent;user=app;password=app';
+CONNECT 'jdbc:derby://localhost:1527/db_project_reservation;user=app;password=app';
 
 -- Eliminar tabla si ya existe
 DROP TABLE reservation;
@@ -7,7 +7,7 @@ DROP TABLE reservation;
 --     RESERVATIONS
 -------------------------------
 -- Crear tabla `reservation` (reservacion)
-CREATE TABLE reservations (
+CREATE TABLE reservation (
     reservation_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) PRIMARY KEY,
     customer_id INT NOT NULL,                -- Identificador del cliente (relación con customers)
     vehicle_id INT NOT NULL,                 -- Identificador del vehículo (relación con vehicles)

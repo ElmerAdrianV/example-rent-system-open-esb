@@ -1,8 +1,7 @@
 -- Conexión a la base de datos
-CONNECT 'jdbc:derby://localhost:1527/db_project_reservations;user=app;password=app';
+CONNECT 'jdbc:derby://localhost:1527/db_project_customer_vehicles;user=app;password=app';
 
 -- Eliminar tabla existente si es necesario
-DROP TABLE reservation;
 DROP TABLE vehicle;
 DROP TABLE customer;
 
@@ -18,7 +17,7 @@ CREATE TABLE customer (
     bank_account VARCHAR(25) NOT NULL UNIQUE -- Número de cuenta bancaria
 );
 
--- Insertar datos en `customers`
+-- Insertar datos en `customer`
 INSERT INTO customer (first_name, last_name, nationality, date_of_birth, license_number, address, bank_account)
 VALUES
 ('Juan', 'Pérez', 'Mexicana', '1990-05-15', 'JPMX123456', 'Calle Falsa 123, CDMX, México', '12345678901234567890'),
