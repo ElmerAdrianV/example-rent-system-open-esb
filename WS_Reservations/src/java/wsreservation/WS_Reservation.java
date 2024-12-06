@@ -26,7 +26,7 @@ import javax.jws.WebParam;
 @WebService(serviceName = "WS_Reservation")
 public class WS_Reservation {
 
-    @Resource(mappedName="java:app/jms/SolicitudReservationFactory")
+    @Resource(mappedName="jms/ReservationReservationFactory")
     private  ConnectionFactory connectionFactory;
 
     @Resource(mappedName="java:app/jms/ReservationRequest")
