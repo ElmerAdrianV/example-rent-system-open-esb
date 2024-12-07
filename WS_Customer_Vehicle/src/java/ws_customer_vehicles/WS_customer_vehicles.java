@@ -19,12 +19,12 @@ import javax.jws.WebParam;
  */
 @WebService(serviceName = "WS_customer_vehicles")
 public class WS_customer_vehicles {
-    
+
     @EJB
     private CustomerFacade customerFacade;
     @EJB
     private VehicleFacade vehicleFacade;
-    
+
     /**
      * This is a sample web service operation
      */
@@ -32,8 +32,8 @@ public class WS_customer_vehicles {
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
     }
-    
-        @WebMethod(operationName = "listCustomers")
+
+    @WebMethod(operationName = "listCustomers")
     public List<Customer> listCustomers() {
         return customerFacade.findAll();
     }
@@ -42,7 +42,7 @@ public class WS_customer_vehicles {
     public List<Vehicle> listVehicles() {
         return vehicleFacade.findAll();
     }
-    
+
     /**
      * Web service operation
      */
@@ -50,9 +50,9 @@ public class WS_customer_vehicles {
     public String ver_coches() {
         StringBuilder sb = new StringBuilder();
         List<Vehicle> lista = listVehicles();
-        
+
         sb.append("Todos los coches");
-        for (Vehicle coche : lista){
+        for (Vehicle coche : lista) {
             sb.append("\n\n Coche con id: ").append(coche.getVehicleId());
             sb.append("\n   Para rentar");
             sb.append("\n      Precio diario: $").append(coche.getDailyRate());
@@ -64,8 +64,38 @@ public class WS_customer_vehicles {
             sb.append("\n      Modelo: ").append(coche.getModel());
             sb.append("\n      Año: ").append(coche.getYears());
             sb.append("\n      Tipo de gasolina: ").append(coche.getFuelType());
-            
+
         }
         return sb.toString();
-    }   
+    }
+
+    @WebMethod(operationName = "CustomerExistance")
+    public boolean CustomerExistance(int idCustomer) throws CustomerExistanceException {
+        List<Customer> customers = listCustomers(); // Llama al método que devuelve todos los clientes
+
+        // Verifica si existe un cliente con el ID proporcionado
+        for (Customer customer : customers) {
+            if (customer.getCustomerId() == idCustomer) {
+                return true; // Si se encuentra, devuelve true
+            }
+        }
+
+        // Si no se encuentra, lanza la excepción personalizada
+        throw new CustomerExistanceException("El cliente con ID " + idCustomer + " no existe.");
+    }
+
+    @WebMethod(operationName = "VehicleExistance")
+    public boolean VehicleExistance(int idVehicle) throws VehicleExistanceException {
+        List<Vehicle> vehicles = listVehicles(); // Llama al método que devuelve todos los vehículos
+
+        // Verifica si existe un vehículo con el ID proporcionado
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getVehicleId() == idVehicle) {
+                return true; // Si se encuentra, devuelve true
+            }
+        }
+
+        // Si no se encuentra, lanza la excepción personalizada
+        throw new VehicleExistanceException("El vehículo con ID " + idVehicle + " no existe.");
+    }
 }
