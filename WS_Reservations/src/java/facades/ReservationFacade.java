@@ -8,6 +8,7 @@ package facades;
 import entities.Reservation;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -28,5 +29,20 @@ public class ReservationFacade extends AbstractFacade<Reservation> {
     public ReservationFacade() {
         super(Reservation.class);
     }
-    
+     public boolean checkAvailability(int vehicleId, String startDate, String endDate) {
+        String jpql = "SELECT COUNT(r) FROM Reservation r " +
+                      "WHERE r.vehicleId = :vehicleId " +
+                      "AND r.active = true " +
+                      "AND (r.startDate BETWEEN :startDate AND :endDate OR " +
+                      "     r.endDate BETWEEN :startDate AND :endDate OR " +
+                      "     :startDate BETWEEN r.startDate AND r.endDate)";
+
+        Query query = em.createQuery(jpql);
+        query.setParameter("vehicleId", vehicleId);
+        query.setParameter("startDate", java.sql.Date.valueOf(startDate));
+        query.setParameter("endDate", java.sql.Date.valueOf(endDate));
+
+        Long count = (Long) query.getSingleResult();
+        return count == 0; // Disponible si no hay intersecciones
+    }
 }
