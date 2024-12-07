@@ -26,6 +26,7 @@ public class POJO_WS_Customer_Vehicle {
         
         long t0, t1, dt;
         
+        t0 = System.currentTimeMillis();
         for(int i=0; i<vez; i++){
             id_customer = (int) (Math.random() * 20) + 1;
             id_vehicle = (int) (Math.random() * 20) + 1;
@@ -38,7 +39,6 @@ public class POJO_WS_Customer_Vehicle {
                 resp1 = false;
                 System.err.println("Error: " + e.getMessage());
             }
-            
             try {
                 resp2 = vehicleExistance(id_vehicle); // Llama al método que verifica la existencia del vehículo
                 System.out.println("El vehículo con ID " + id_vehicle + " existe.");
@@ -48,7 +48,10 @@ public class POJO_WS_Customer_Vehicle {
                 System.err.println("Error: " + e.getMessage());
             }  
         }
-
+        t1 = System.currentTimeMillis();
+        dt = t1 - t0;
+        System.out.println("==================");
+        System.out.println("Tiempo tomado: " + dt);
     }
 
     private static boolean customerExistance(int arg0) throws CustomerExistanceException_Exception {
