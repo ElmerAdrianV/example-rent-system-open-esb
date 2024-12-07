@@ -6,6 +6,7 @@
 package facades;
 
 import entities.Reservation;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -44,5 +45,17 @@ public class ReservationFacade extends AbstractFacade<Reservation> {
 
         Long count = (Long) query.getSingleResult();
         return count == 0; // Disponible si no hay intersecciones
+    }
+     
+     public List<Reservation> findReservationsByCustomerId(int customerId) {
+    return em.createQuery("SELECT r FROM Reservation r WHERE r.customerId = :customerId", Reservation.class)
+             .setParameter("customerId", customerId)
+             .getResultList();
+    }
+    
+    public List<Reservation> findReservationsByVehicleId(int vehicleId) {
+    return em.createQuery("SELECT r FROM Reservation r WHERE r.vehicleId = :customerId", Reservation.class)
+             .setParameter("customerId", vehicleId)
+             .getResultList();
     }
 }

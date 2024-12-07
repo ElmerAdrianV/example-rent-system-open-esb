@@ -224,5 +224,62 @@ public class WS_Reservation {
 
         return rentalDays;
     }
+    
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "mis_reservaciones")
+    public String mis_reservaciones(@WebParam(name = "customer_id") int customer_id) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            // Realiza la consulta a la base de datos para obtener las reservaciones del cliente
+            List<Reservation> reservaciones = reservationFacade.findReservationsByCustomerId(customer_id);
+
+            // Verifica si el cliente tiene reservaciones
+            if (reservaciones.isEmpty()) {
+                return "El cliente con ID " + customer_id + " no ha hecho ninguna reservación.";
+            }
+
+            // Construye el mensaje con las reservaciones
+            sb.append("Reservaciones del cliente con ID ").append(customer_id).append(":");
+            for (Reservation r : reservaciones) {
+                sb.append("\n\nID de reservación: ").append(r.getReservationId())
+                  .append("\n   Fecha de inicio: ").append(r.getStartDate())
+                  .append("\n   Fecha de fin: ").append(r.getEndDate())
+                  .append("\n   ID del vehículo:  ").append(r.getVehicleId())
+                  .append("\n   Estado: ").append(r.getActive() ? "Activa" : "Finalizada");
+            }
+        } catch (Exception e) {
+            sb.append("Ocurrió un error al consultar las reservaciones: ").append(e.getMessage());
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "reportes_coche")
+    public String reportes_coche(@WebParam(name = "vehicle_id") int vehicle_id) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            // Realiza la consulta a la base de datos para obtener las reservaciones del cliente
+            List<Reservation> reservaciones = reservationFacade.findReservationsByVehicleId(vehicle_id);
+
+            // Verifica si el cliente tiene reservaciones
+            if (reservaciones.isEmpty()) {
+                return "El coche con ID " + vehicle_id + " no ha tenido reportes.";
+            }
+
+            // Construye el mensaje con las reservaciones
+            sb.append("Reservaciones del coche con ID ").append(vehicle_id).append(":");
+            for (Reservation r : reservaciones) {
+                sb.append("\n\nID de reservación: ").append(r.getReservationId())
+                  .append("\n   Reporte: ").append(r.getReport());
+            }
+        } catch (Exception e) {
+            sb.append("Ocurrió un error al consultar las reservaciones: ").append(e.getMessage());
+        }
+        return sb.toString();
+    }
 
 }
