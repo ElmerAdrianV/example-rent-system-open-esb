@@ -7,7 +7,7 @@ package wsreservation;
 
 import entities.Reservation;
 import facades.ReservationFacade;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +34,7 @@ public class WS_Reservation {
     private Queue queue;
 
     @EJB
-    private ReservationFacade ejbRef;// Add business logic below. (Right-click in editor and choose
+    private ReservationFacade reservationFacade;// Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Web Service Operation")
 
     /**
@@ -48,39 +48,39 @@ public class WS_Reservation {
     @WebMethod(operationName = "create")
     @Oneway
     public void create(@WebParam(name = "entity") Reservation entity) {
-        ejbRef.create(entity);
+        reservationFacade.create(entity);
     }
 
     @WebMethod(operationName = "edit")
     @Oneway
     public void edit(@WebParam(name = "entity") Reservation entity) {
-        ejbRef.edit(entity);
+        reservationFacade.edit(entity);
     }
 
     @WebMethod(operationName = "remove")
     @Oneway
     public void remove(@WebParam(name = "entity") Reservation entity) {
-        ejbRef.remove(entity);
+        reservationFacade.remove(entity);
     }
 
     @WebMethod(operationName = "find")
     public Reservation find(@WebParam(name = "id") Object id) {
-        return ejbRef.find(id);
+        return reservationFacade.find(id);
     }
 
     @WebMethod(operationName = "findAll")
     public List<Reservation> findAll() {
-        return ejbRef.findAll();
+        return reservationFacade.findAll();
     }
 
     @WebMethod(operationName = "findRange")
     public List<Reservation> findRange(@WebParam(name = "range") int[] range) {
-        return ejbRef.findRange(range);
+        return reservationFacade.findRange(range);
     }
 
     @WebMethod(operationName = "count")
     public int count() {
-        return ejbRef.count();
+        return reservationFacade.count();
     }
 
     @WebMethod(operationName = "ReservationRequest")
@@ -142,6 +142,87 @@ public class WS_Reservation {
         }
 
         return isSuccess;
+    }
+
+    @WebMethod(operationName = "pickupReservation")
+    public boolean pickupReservation(@WebParam(name = "reservation_id") int reservationId) {
+        try {
+            Reservation reservation = reservationFacade.find(reservationId);
+
+            if (reservation == null) {
+                throw new IllegalArgumentException("La reservación con ID " + reservationId + " no existe.");
+            }
+
+            if (reservation.getActive()) {
+                throw new IllegalArgumentException("La reservación ya está activa.");
+            }
+
+            reservation.setActive(true);
+            reservationFacade.edit(reservation);
+
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO,
+                    "Reservación con ID " + reservationId + " marcada como activa.");
+            return true;
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+            return false;
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    @WebMethod(operationName = "dropReservation")
+    public int dropReservation(@WebParam(name = "reservation_id") int reservationId,
+            @WebParam(name = "return_date") String returnDate,
+            @WebParam(name = "final_report") String finalReport) throws IllegalArgumentException {
+        int rentalDays = 0;
+
+        try {
+            // Buscar la reservación por ID
+            Reservation reservation = reservationFacade.find(reservationId);
+
+            if (reservation == null) {
+                throw new IllegalArgumentException("La reservación con ID " + reservationId + " no existe.");
+            }
+
+            if (reservation.getFinished()) {
+                throw new IllegalArgumentException("La reservación ya ha sido marcada como finalizada.");
+            }
+
+            // Validar y parsear la fecha de regreso
+            Date returnDateParsed;
+            try {
+                returnDateParsed = java.sql.Date.valueOf(returnDate);
+            } catch (IllegalArgumentException ex) {
+                throw new IllegalArgumentException("Formato de fecha inválido para la fecha de regreso. Use el formato yyyy-MM-dd.", ex);
+            }
+
+            // Verificar si la fecha de regreso está antes o después del final de la reservación
+            Date endDate = reservation.getEndDate();
+            Date effectiveDate = returnDateParsed.after(endDate) ? returnDateParsed : endDate;
+
+            // Calcular días rentados como el mayor entre endDate y returnDate
+            rentalDays = (int) ((effectiveDate.getTime() - reservation.getStartDate().getTime()) / (1000 * 60 * 60 * 24));
+
+            // Actualizar la reservación
+            reservation.setEndDate(returnDateParsed); // Actualizar a la fecha real de regreso
+            reservation.setActive(false);
+            reservation.setFinished(true);
+            reservation.setReport(finalReport);
+            reservationFacade.edit(reservation);
+
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO,
+                    "Reservación con ID " + reservationId + " finalizada. Total de días rentados: " + rentalDays);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+            throw ex;
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al procesar la devolución de la reservación.", ex);
+        }
+
+        return rentalDays;
     }
 
 }
