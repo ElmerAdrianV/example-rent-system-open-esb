@@ -42,4 +42,30 @@ public class WS_customer_vehicles {
     public List<Vehicle> listVehicles() {
         return vehicleFacade.findAll();
     }
+    
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "ver_coches")
+    public String ver_coches() {
+        StringBuilder sb = new StringBuilder();
+        List<Vehicle> lista = listVehicles();
+        
+        sb.append("Todos los coches");
+        for (Vehicle coche : lista){
+            sb.append("\n\n Coche con id: ").append(coche.getVehicleId());
+            sb.append("\n   Para rentar");
+            sb.append("\n      Precio diario: $").append(coche.getDailyRate());
+            sb.append("\n      Capacidad: ").append(coche.getCapacity());
+            sb.append("\n      Disponibilidad: ").append(coche.getStatus());
+            sb.append("\n   Sobre el coche");
+            sb.append("\n      Placas: ").append(coche.getLicensePlate());
+            sb.append("\n      Marca: ").append(coche.getBrand());
+            sb.append("\n      Modelo: ").append(coche.getModel());
+            sb.append("\n      Año: ").append(coche.getYears());
+            sb.append("\n      Tipo de gasolina: ").append(coche.getFuelType());
+            
+        }
+        return sb.toString();
+    }
 }
