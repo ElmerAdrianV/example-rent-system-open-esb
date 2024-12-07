@@ -50,8 +50,7 @@ public class POJO_WS_Customer_Vehicle {
         }
         t1 = System.currentTimeMillis();
         dt = t1 - t0;
-        System.out.println("==================");
-        System.out.println("Tiempo tomado: " + dt);
+        System.out.println("==========Tiempo tomado: " + dt + "==========");
     }
 
     private static boolean customerExistance(int arg0) throws CustomerExistanceException_Exception {
