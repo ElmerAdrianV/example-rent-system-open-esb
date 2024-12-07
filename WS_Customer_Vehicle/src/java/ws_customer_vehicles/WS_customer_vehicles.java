@@ -33,7 +33,7 @@ public class WS_customer_vehicles {
         return "Hello " + txt + " !";
     }
     
-        @WebMethod(operationName = "listCustomers")
+    @WebMethod(operationName = "listCustomers")
     public List<Customer> listCustomers() {
         return customerFacade.findAll();
     }
@@ -67,5 +67,35 @@ public class WS_customer_vehicles {
             
         }
         return sb.toString();
+    }
+
+    @WebMethod(operationName = "CustomerExistance")
+    public boolean CustomerExistance(int idCustomer) throws CustomerExistanceException {
+        List<Customer> customers = listCustomers(); // Llama al método que devuelve todos los clientes
+
+        // Verifica si existe un cliente con el ID proporcionado
+        for (Customer customer : customers) {
+            if (customer.getCustomerId() == idCustomer) {
+                return true; // Si se encuentra, devuelve true
+            }
+        }
+
+        // Si no se encuentra, lanza la excepción personalizada
+        throw new CustomerExistanceException("El cliente con ID " + idCustomer + " no existe.");
+    }
+    
+    @WebMethod(operationName = "VehicleExistance")
+    public boolean VehicleExistance(int idVehicle) throws VehicleExistanceException {
+        List<Vehicle> vehicles = listVehicles(); // Llama al método que devuelve todos los vehículos
+
+        // Verifica si existe un vehículo con el ID proporcionado
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getVehicleId() == idVehicle) {
+                return true; // Si se encuentra, devuelve true
+            }
+        }
+
+        // Si no se encuentra, lanza la excepción personalizada
+        throw new VehicleExistanceException("El vehículo con ID " + idVehicle + " no existe.");
     }
 }
