@@ -22,7 +22,11 @@ INSERT INTO customer (first_name, last_name, nationality, date_of_birth, license
 VALUES
 ('Juan', 'Pérez', 'Mexicana', '1990-05-15', 'JPMX123456', 'Calle Falsa 123, CDMX, México', '12345678901234567890'),
 ('Maria', 'Gómez', 'Estadounidense', '1985-03-22', 'MGUSA654321', '456 Elm Street, Los Angeles, USA', '09876543210987654321'),
-('Carlos', 'López', 'Canadiense', '1992-11-10', 'CLCAN987654', '789 Maple Ave, Toronto, Canada', '11122233344455566677');
+('Carlos', 'López', 'Canadiense', '1992-11-10', 'CLCAN987654', '789 Maple Ave, Toronto, Canada', '11122233344455566677'),
+('Ditirambo', 'Farfulla', 'Mexicana', '1992-12-10', 'DFMX987624', 'Arroyo Bajo 10 int 10', '123456'),
+('Gandulfo', 'Roncante', 'Mexicana', '1999-12-10', 'GRMX087624', 'Arroyo Bajo 10 int 12', '654321'),
+('Vagonzo', 'Durmiente', 'Mexicana', '1992-02-01', 'VDMX387124', 'Arroyo Bajo 10 int 45', '123459'),
+('Hambrosio', 'Comensal', 'Mexicana', '1992-10-21', 'HCMX387124', 'Arroyo Bajo 10 int 58', '183456');
 
 -- Crear tabla `vehicle` (vehículos)
 CREATE TABLE vehicle (
