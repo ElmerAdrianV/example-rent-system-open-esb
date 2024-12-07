@@ -7,6 +7,7 @@ package wsreservation;
 
 import entities.Reservation;
 import facades.ReservationFacade;
+import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,16 +27,16 @@ import javax.jws.WebParam;
 @WebService(serviceName = "WS_Reservation")
 public class WS_Reservation {
 
-    @Resource(mappedName="jms/ReservationReservationFactory")
-    private  ConnectionFactory connectionFactory;
+    @Resource(mappedName = "jms/ReservationReservationFactory")
+    private ConnectionFactory connectionFactory;
 
-    @Resource(mappedName="java:app/jms/ReservationRequest")
-    private  Queue queue; 
-    
+    @Resource(mappedName = "java:app/jms/ReservationRequest")
+    private Queue queue;
+
     @EJB
     private ReservationFacade ejbRef;// Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Web Service Operation")
-    
+
     /**
      * This is a sample web service operation
      */
@@ -43,7 +44,7 @@ public class WS_Reservation {
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
     }
-    
+
     @WebMethod(operationName = "create")
     @Oneway
     public void create(@WebParam(name = "entity") Reservation entity) {
@@ -82,63 +83,65 @@ public class WS_Reservation {
         return ejbRef.count();
     }
 
-    /**
-     * Web service operation
-     * @param id_Tda
-     * @param id_Reservation
-     * @param name
-     * @param email
-     * @param phone
-     * @param address
-     * @param city_region
-     * @return 
-     */
-    @WebMethod(operationName = "solicitudEnvio")
-    public boolean solicitudEnvio(@WebParam(name = "id_Tda")      int    id_Tda, 
-                                  @WebParam(name = "id_Reservation")   int    id_Reservation,
-                                  @WebParam(name = "name")        String name, 
-                                  @WebParam(name = "email")       String email, 
-                                  @WebParam(name = "phone")       String phone, 
-                                  @WebParam(name = "address")     String address, 
-                                  @WebParam(name = "city_region") String city_region) 
-    {
-        boolean blnRes = false;
-        
-        entities.Reservation reservation = new entities.Reservation();
-        
-//        Reservation.setIdTda(id_Tda);
-//        Reservation.setIdReservation(id_Reservation);
-//        Reservation.setName(name);
-//        active_rent.setEmail(email);
-//        active_rent.setPhone(phone);
-//        active_rent.setAddress(address);
-//        active_rent.setCityRegion(city_region);
-        
-        try 
-        {
-            Connection connection = connectionFactory.createConnection();
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageProducer messageProducer = session.createProducer(queue);
+    @WebMethod(operationName = "ReservationRequest")
+    public boolean reservationRequest(@WebParam(name = "id_Tda") int id_Tda,
+            @WebParam(name = "vehicle_id") int vehicleId,
+            @WebParam(name = "customer_id") int customerId,
+            @WebParam(name = "start_date") String startDate,
+            @WebParam(name = "end_date") String endDate,
+            @WebParam(name = "report") String report) throws IllegalArgumentException {
+        boolean isSuccess = false;
+        // Validar formato de fechas
+        Date startDateParsed;
+        Date endDateParsed;
 
+        try {
+            startDateParsed = java.sql.Date.valueOf(startDate);
+            endDateParsed = java.sql.Date.valueOf(endDate);
+        } catch (IllegalArgumentException ex) {
+            IllegalArgumentException exBadParse = new IllegalArgumentException("Formato de fecha inválido o las fechas no están en el orden correcto. Use el formato yyyy-MM-dd.", ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, exBadParse.getMessage(), exBadParse);
+            throw exBadParse;
+        }
+
+        if (!startDateParsed.before(endDateParsed)) {
+            IllegalArgumentException ex = new IllegalArgumentException("La fecha de inicio debe ser anterior a la fecha de finalización.");
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+            throw ex;
+
+        }
+
+        try (Connection connection = connectionFactory.createConnection();
+                Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
+
+            // Crear productor de mensajes
+            MessageProducer producer = session.createProducer(queue);
+
+            // Crear objeto Reservation
+            Reservation reservation = new Reservation();
+            reservation.setCustomerId(customerId);
+            reservation.setVehicleId(vehicleId);
+            reservation.setStartDate(startDateParsed);
+            reservation.setEndDate(endDateParsed);
+            reservation.setReport(report != null ? report : "Reservation has not been started");
+            reservation.setActive(true);
+            reservation.setFinished(false);
+
+            // Crear mensaje JMS
             ObjectMessage message = session.createObjectMessage();
-            
             message.setObject(reservation);
-            messageProducer.send(message);
-            
-//            Logger.getLogger(this.getClass().getName()).log(Level.INFO,
-//                    "Encolando solicitud de reservación para:" + reservation.getName() + ", para el pedido:" + reservation.getIdReservation() + " co email:" + active_rent.getEmail());
 
-            messageProducer.close();
-            connection.close();
+            // Enviar mensaje a la cola
+            producer.send(message);
 
-            blnRes = true;
-        }
-        catch (Exception ex) 
-        {
-            blnRes = false;
+            isSuccess = true;
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
 
-        return blnRes;
+        return isSuccess;
     }
-    
+
 }
