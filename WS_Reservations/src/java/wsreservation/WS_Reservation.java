@@ -90,8 +90,6 @@ public class WS_Reservation {
             @WebParam(name = "start_date") String startDate,
             @WebParam(name = "end_date") String endDate,
             @WebParam(name = "report") String report) throws IllegalArgumentException {
-        boolean isSuccess = false;
-        // Validar formato de fechas
         Date startDateParsed;
         Date endDateParsed;
 
@@ -108,7 +106,6 @@ public class WS_Reservation {
             IllegalArgumentException ex = new IllegalArgumentException("La fecha de inicio debe ser anterior a la fecha de finalización.");
             Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
             throw ex;
-
         }
 
         try (Connection connection = connectionFactory.createConnection();
@@ -134,27 +131,24 @@ public class WS_Reservation {
             // Enviar mensaje a la cola
             producer.send(message);
 
-            isSuccess = true;
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO,
+                    "Reservación encolada exitosamente para el cliente con ID " + customerId);
+            return true;
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Error al encolar la reservación.", ex);
+            throw new RuntimeException("Error al procesar la solicitud de reservación.", ex);
         }
-
-        return isSuccess;
     }
 
     @WebMethod(operationName = "pickupReservation")
-    public boolean pickupReservation(@WebParam(name = "reservation_id") int reservationId) {
+    public boolean pickupReservation(@WebParam(name = "reservation_id") int reservationId) throws IllegalArgumentException {
         try {
-            Reservation reservation = reservationFacade.find(reservationId);
-
-            if (reservation == null) {
-                throw new IllegalArgumentException("La reservación con ID " + reservationId + " no existe.");
-            }
+            Reservation reservation = verifyReservationExists(reservationId);
 
             if (reservation.getActive()) {
-                throw new IllegalArgumentException("La reservación ya está activa.");
+                IllegalArgumentException ex = new IllegalArgumentException("La reservación ya está activa.");
+                Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+                throw ex;
             }
 
             reservation.setActive(true);
@@ -165,10 +159,7 @@ public class WS_Reservation {
             return true;
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
-            return false;
-        } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw ex;
         }
     }
 
@@ -176,26 +167,22 @@ public class WS_Reservation {
     public int dropReservation(@WebParam(name = "reservation_id") int reservationId,
             @WebParam(name = "return_date") String returnDate,
             @WebParam(name = "final_report") String finalReport) throws IllegalArgumentException {
-        int rentalDays = 0;
-
         try {
-            // Buscar la reservación por ID
-            Reservation reservation = reservationFacade.find(reservationId);
-
-            if (reservation == null) {
-                throw new IllegalArgumentException("La reservación con ID " + reservationId + " no existe.");
-            }
+            Reservation reservation = verifyReservationExists(reservationId);
 
             if (reservation.getFinished()) {
-                throw new IllegalArgumentException("La reservación ya ha sido marcada como finalizada.");
+                IllegalArgumentException ex = new IllegalArgumentException("La reservación ya ha sido marcada como finalizada.");
+                Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+                throw ex;
             }
 
-            // Validar y parsear la fecha de regreso
             Date returnDateParsed;
             try {
                 returnDateParsed = java.sql.Date.valueOf(returnDate);
             } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException("Formato de fecha inválido para la fecha de regreso. Use el formato yyyy-MM-dd.", ex);
+                IllegalArgumentException exDate = new IllegalArgumentException("Formato de fecha inválido para la fecha de regreso. Use el formato yyyy-MM-dd.", ex);
+                Logger.getLogger(this.getClass().getName()).log(Level.WARNING, exDate.getMessage(), exDate);
+                throw exDate;
             }
 
             // Verificar si la fecha de regreso está antes o después del final de la reservación
@@ -203,7 +190,7 @@ public class WS_Reservation {
             Date effectiveDate = returnDateParsed.after(endDate) ? returnDateParsed : endDate;
 
             // Calcular días rentados como el mayor entre endDate y returnDate
-            rentalDays = (int) ((effectiveDate.getTime() - reservation.getStartDate().getTime()) / (1000 * 60 * 60 * 24));
+            int rentalDays = (int) ((effectiveDate.getTime() - reservation.getStartDate().getTime()) / (1000 * 60 * 60 * 24));
 
             // Actualizar la reservación
             reservation.setEndDate(returnDateParsed); // Actualizar a la fecha real de regreso
@@ -214,17 +201,17 @@ public class WS_Reservation {
 
             Logger.getLogger(this.getClass().getName()).log(Level.INFO,
                     "Reservación con ID " + reservationId + " finalizada. Total de días rentados: " + rentalDays);
+
+            return rentalDays;
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
             throw ex;
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Error al procesar la devolución de la reservación.", ex);
             throw new RuntimeException("Error al procesar la devolución de la reservación.", ex);
         }
-
-        return rentalDays;
     }
-    
+
     /**
      * Web service operation
      */
@@ -244,10 +231,10 @@ public class WS_Reservation {
             sb.append("Reservaciones del cliente con ID ").append(customer_id).append(":");
             for (Reservation r : reservaciones) {
                 sb.append("\n\nID de reservación: ").append(r.getReservationId())
-                  .append("\n   Fecha de inicio: ").append(r.getStartDate())
-                  .append("\n   Fecha de fin: ").append(r.getEndDate())
-                  .append("\n   ID del vehículo:  ").append(r.getVehicleId())
-                  .append("\n   Estado: ").append(r.getActive() ? "Activa" : "Finalizada");
+                        .append("\n   Fecha de inicio: ").append(r.getStartDate())
+                        .append("\n   Fecha de fin: ").append(r.getEndDate())
+                        .append("\n   ID del vehículo:  ").append(r.getVehicleId())
+                        .append("\n   Estado: ").append(r.getActive() ? "Activa" : "Finalizada");
             }
         } catch (Exception e) {
             sb.append("Ocurrió un error al consultar las reservaciones: ").append(e.getMessage());
@@ -274,12 +261,43 @@ public class WS_Reservation {
             sb.append("Reservaciones del coche con ID ").append(vehicle_id).append(":");
             for (Reservation r : reservaciones) {
                 sb.append("\n\nID de reservación: ").append(r.getReservationId())
-                  .append("\n   Reporte: ").append(r.getReport());
+                        .append("\n   Reporte: ").append(r.getReport());
             }
         } catch (Exception e) {
             sb.append("Ocurrió un error al consultar las reservaciones: ").append(e.getMessage());
         }
         return sb.toString();
+    }
+
+    private Reservation verifyReservationExists(int reservationId) throws IllegalArgumentException {
+        Reservation reservation = reservationFacade.find(reservationId);
+        if (reservation == null) {
+            IllegalArgumentException ex = new IllegalArgumentException("La reservación con ID " + reservationId + " no existe.");
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+            throw ex;
+        }
+        return reservation;
+    }
+
+    @WebMethod(operationName = "cancelReservation")
+    public boolean cancelReservation(@WebParam(name = "reservation_id") int reservationId) throws IllegalArgumentException {
+        try {
+            Reservation reservation = verifyReservationExists(reservationId);
+
+            if (reservation.getFinished()) {
+                IllegalArgumentException ex = new IllegalArgumentException("No se puede cancelar una reservación ya finalizada.");
+                Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+                throw ex;
+            }
+
+            reservationFacade.remove(reservation);
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO,
+                    "Reservación con ID " + reservationId + " cancelada exitosamente.");
+            return true;
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, ex.getMessage(), ex);
+            throw ex;
+        }
     }
 
 }
