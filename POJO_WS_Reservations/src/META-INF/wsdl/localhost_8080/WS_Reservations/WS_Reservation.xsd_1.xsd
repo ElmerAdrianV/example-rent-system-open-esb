@@ -4,6 +4,10 @@
 
 <xs:element name="ReservationRequestResponse" type="tns:ReservationRequestResponse"/>
 
+<xs:element name="cancelReservation" type="tns:cancelReservation"/>
+
+<xs:element name="cancelReservationResponse" type="tns:cancelReservationResponse"/>
+
 <xs:element name="count" type="tns:count"/>
 
 <xs:element name="countResponse" type="tns:countResponse"/>
@@ -143,6 +147,18 @@
 <xs:complexType name="findResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:reservation" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cancelReservation">
+<xs:sequence>
+<xs:element name="reservation_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cancelReservationResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
 </xs:sequence>
 </xs:complexType>
 
