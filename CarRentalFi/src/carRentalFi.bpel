@@ -34,8 +34,16 @@
     </variables>
     <sequence>
         <receive name="Receive1" createInstance="yes" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" portType="tns:myCarRentalFiPortType" variable="ValidationRequest"/>
-        <invoke name="Invoke1" partnerLink="Customers_Vehicles" operation="VehicleExistance" xmlns:tns="http://ws_customer_vehicles/" portType="tns:WS_customer_vehicles" inputVariable="VehicleExistanceIn" outputVariable="VehicleExistanceOut"/>
-        <invoke name="Invoke2" partnerLink="Customers_Vehicles" operation="CustomerExistance" xmlns:tns="http://ws_customer_vehicles/" portType="tns:WS_customer_vehicles" inputVariable="CustomerExistanceIn" outputVariable="CustomerExistanceOut"/>
+        <assign name="Assign1">
+            <copy>
+                    <from>$ValidationRequest.InitialValidationRequest/ns0:idCustomer</from>
+                        <to>$CustomerExistanceIn.parameters/arg0</to>
+                </copy>
+                <copy>
+                    <from>$ValidationRequest.InitialValidationRequest/ns0:idVehicle</from>
+                        <to>$VehicleExistanceIn.parameters/arg0</to>
+                </copy>
+        </assign>
         <scope name="Scope1">
             <faultHandlers>
                 <catch>
@@ -50,18 +58,37 @@
                     </sequence>
                 </catch>
             </faultHandlers>
-            <assign name="Assign1">
-                <copy>
-                        <from>$ValidationRequest.InitialValidationRequest/ns0:idCustomer</from>
-                            <to>$CustomerExistanceIn.parameters/arg0</to>
-                    </copy>
-                    <copy>
-                        <from>$ValidationRequest.InitialValidationRequest/ns0:idVehicle</from>
-                            <to>$VehicleExistanceIn.parameters/arg0</to>
-                    </copy>
-            </assign>
+            <sequence name="Sequence7">
+                <invoke name="Invoke1" partnerLink="Customers_Vehicles" operation="VehicleExistance" xmlns:tns="http://ws_customer_vehicles/" portType="tns:WS_customer_vehicles" inputVariable="VehicleExistanceIn" outputVariable="VehicleExistanceOut"/>
+                <invoke name="Invoke2" partnerLink="Customers_Vehicles" operation="CustomerExistance" xmlns:tns="http://ws_customer_vehicles/" portType="tns:WS_customer_vehicles" inputVariable="CustomerExistanceIn" outputVariable="CustomerExistanceOut"/>
+            </sequence>
         </scope>
-        <invoke name="Invoke3" partnerLink="Reservation" operation="ReservationRequest" xmlns:tns="http://wsreservation/" portType="tns:WS_Reservation" inputVariable="ReservationRequestIn" outputVariable="ReservationRequestOut"/>
+        <assign name="Assign3">
+            <copy>
+                    <from>$ValidationRequest.InitialValidationRequest/ns0:idCustomer</from>
+                        <to>$ReservationRequestIn.parameters/customer_id</to>
+                </copy>
+                <copy>
+                    <from>$ValidationRequest.InitialValidationRequest/ns0:idVehicle</from>
+                        <to>$ReservationRequestIn.parameters/vehicle_id</to>
+                </copy>
+                <copy>
+                    <from>$ValidationRequest.InitialReservationDetails/ns0:startDate</from>
+                        <to>$ReservationRequestIn.parameters/start_date</to>
+                </copy>
+                <copy>
+                    <from>$ValidationRequest.InitialReservationDetails/ns0:finishDate</from>
+                        <to>$ReservationRequestIn.parameters/end_date</to>
+                </copy>
+                <copy>
+                    <from>$ValidationRequest.InitialReservationDetails/ns0:TdaId</from>
+                        <to>$ReservationRequestIn.parameters/id_Tda</to>
+                </copy>
+                <copy>
+                    <from>$ValidationRequest.InitialReservationDetails/ns0:report</from>
+                        <to>$ReservationRequestIn.parameters/report</to>
+                </copy>
+        </assign>
         <scope name="Scope2">
             <variables>
                 <variable name="Fault1FaultVar1" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" messageType="tns:ReservationFault"/>
@@ -79,32 +106,7 @@
                     </sequence>
                 </catch>
             </faultHandlers>
-            <assign name="Assign3">
-                <copy>
-                    <from>$ValidationRequest.InitialValidationRequest/ns0:idCustomer</from>
-                        <to>$ReservationRequestIn.parameters/customer_id</to>
-                </copy>
-                    <copy>
-                    <from>$ValidationRequest.InitialValidationRequest/ns0:idVehicle</from>
-                        <to>$ReservationRequestIn.parameters/vehicle_id</to>
-                </copy>
-                    <copy>
-                    <from>$ValidationRequest.InitialReservationDetails/ns0:startDate</from>
-                        <to>$ReservationRequestIn.parameters/start_date</to>
-                </copy>
-                    <copy>
-                    <from>$ValidationRequest.InitialReservationDetails/ns0:finishDate</from>
-                        <to>$ReservationRequestIn.parameters/end_date</to>
-                </copy>
-                    <copy>
-                    <from>$ValidationRequest.InitialReservationDetails/ns0:TdaId</from>
-                        <to>$ReservationRequestIn.parameters/id_Tda</to>
-                </copy>
-                    <copy>
-                    <from>$ValidationRequest.InitialReservationDetails/ns0:report</from>
-                        <to>$ReservationRequestIn.parameters/report</to>
-                </copy>
-            </assign>
+            <invoke name="Invoke3" partnerLink="Reservation" operation="ReservationRequest" xmlns:tns="http://wsreservation/" portType="tns:WS_Reservation" inputVariable="ReservationRequestIn" outputVariable="ReservationRequestOut"/>
         </scope>
         <if name="If2" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi">
             <condition>$ReservationRequestOut.parameters/return</condition>

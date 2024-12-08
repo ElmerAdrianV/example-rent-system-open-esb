@@ -8,8 +8,8 @@
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
              xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             targetNamespace="CarRentalFiCA"
-             xmlns:tns="CarRentalFiCA" xmlns:ns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+             targetNamespace="CarRentaFiCA"
+             xmlns:tns="CarRentaFiCA" xmlns:ns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
     <import namespace="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" location="../jbiServiceUnits/CarRentalFi/myCarRentalFi.wsdl"/>
     <portType name="dummyCasaPortType"/>
     <binding name="casaBinding1" type="ns:myCarRentalFiPortType">
@@ -17,19 +17,19 @@
         <operation name="Reservation">
             <soap:operation/>
             <input name="input1">
-                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="CarRentalFiCA"/>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="CarRentaFiCA"/>
             </input>
             <output name="output1">
-                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="CarRentalFiCA"/>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="CarRentaFiCA"/>
             </output>
             <fault name="fault1">
-                <soap:fault name="fault1" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="CarRentalFiCA"/>
+                <soap:fault name="fault1" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="CarRentaFiCA"/>
             </fault>
         </operation>
     </binding>
-    <service name="CarRentalFiCAService1">
+    <service name="CarRentaFiCAService1">
         <port name="casaPort1" binding="tns:casaBinding1">
-            <soap:address location="http://localhost:${HttpDefaultPort}/CarRentalFiCAService1/casaPort1"/>
+            <soap:address location="http://localhost:${HttpDefaultPort}/CarRentaFiCAService1/casaPort1"/>
         </port>
     </service>
 </definitions>

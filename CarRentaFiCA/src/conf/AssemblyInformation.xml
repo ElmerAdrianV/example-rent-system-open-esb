@@ -2,12 +2,12 @@
 <jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/jbi ./jbi.xsd">
     <service-assembly>
         <identification>
-            <name>CarRentalFiCA</name>
-            <description>Represents the Service Assembly of CarRentalFiCA</description>
+            <name>CarRentaFiCA</name>
+            <description>Represents the Service Assembly of CarRentaFiCA</description>
         </identification>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-CarRentalFi</name>
+                <name>CarRentaFiCA-CarRentalFi</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -17,7 +17,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-database-binding</name>
+                <name>CarRentaFiCA-sun-database-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -27,7 +27,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-email-binding</name>
+                <name>CarRentaFiCA-sun-email-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -37,7 +37,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-file-binding</name>
+                <name>CarRentaFiCA-sun-file-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -47,7 +47,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-ftp-binding</name>
+                <name>CarRentaFiCA-sun-ftp-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -57,7 +57,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-hl7-binding</name>
+                <name>CarRentaFiCA-sun-hl7-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -67,7 +67,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-http-binding</name>
+                <name>CarRentaFiCA-sun-http-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -77,7 +77,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-jms-binding</name>
+                <name>CarRentaFiCA-sun-jms-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -87,7 +87,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-ldap-binding</name>
+                <name>CarRentaFiCA-sun-ldap-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -97,7 +97,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-rest-binding</name>
+                <name>CarRentaFiCA-sun-rest-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -107,7 +107,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-scheduler-binding</name>
+                <name>CarRentaFiCA-sun-scheduler-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
@@ -117,7 +117,7 @@
         </service-unit>
         <service-unit>
             <identification>
-                <name>CarRentalFiCA-sun-webspheremq-binding</name>
+                <name>CarRentaFiCA-sun-webspheremq-binding</name>
                 <description>Represents this Service Unit</description>
             </identification>
             <target>
