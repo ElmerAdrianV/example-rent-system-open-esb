@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8080/WS_Reservations/WS_Reservation?WSDL" uri="src/localhost_8080/WS_Reservations/WS_Reservation.wsdl"/>
-    <system systemId="http://localhost:8080/WS_Reservations/WS_Reservation?xsd=1" uri="src/localhost_8080/WS_Reservations/WS_Reservation.xsd_1.xsd"/>
-    <system systemId="http://localhost:8080/WS_Customer_Vehicle/WS_customer_vehicles?WSDL" uri="src/localhost_8080/WS_Customer_Vehicle/WS_customer_vehicles.wsdl"/>
-    <system systemId="http://localhost:8080/WS_Customer_Vehicle/WS_customer_vehicles?xsd=1" uri="src/localhost_8080/WS_Customer_Vehicle/WS_customer_vehicles.xsd_1.xsd"/>
-</catalog>
