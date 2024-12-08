@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://xml.netbeans.org/schema/CarRentalFiSchema"
+    xmlns:tns="http://xml.netbeans.org/schema/CarRentalFiSchema"
+    elementFormDefault="qualified">
+    <xsd:complexType name="ValidationRequest">
+        <xsd:sequence>
+            <xsd:element name="idCustomer" type="xsd:int"></xsd:element>
+            <xsd:element name="idVehicle" type="xsd:int"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ReservationDetails">
+        <xsd:sequence>
+            <xsd:element name="startDate" type="xsd:date"></xsd:element>
+            <xsd:element name="finishDate" type="xsd:date"></xsd:element>
+            <xsd:element name="TdaId" type="xsd:int"></xsd:element>
+            <xsd:element name="report" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="OutputComplexType">
+        <xsd:sequence>
+            <xsd:element name="Authorization" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="faultComplexType">
+        <xsd:sequence>
+            <xsd:element name="faultDetail" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="myOutput" type="tns:OutputComplexType"></xsd:element>
+    <xsd:element name="myReservationDetails" type="tns:ReservationDetails"></xsd:element>
+    <xsd:element name="myValidationRequest" type="tns:ValidationRequest"></xsd:element>
+    <xsd:element name="myFault" type="tns:faultComplexType"></xsd:element>
+</xsd:schema>
