@@ -9,8 +9,6 @@
             <xsd:element name="idCustomer" type="xsd:int"></xsd:element>
             <xsd:element name="idVehicle" type="xsd:int"></xsd:element>
             <xsd:element name="idStore" type="xsd:int"></xsd:element>
-            <xsd:element name="startDate" type="xsd:date"></xsd:element>
-            <xsd:element name="finishDate" type="xsd:date"></xsd:element>
             <xsd:element name="report" type="xsd:string"></xsd:element>
             <xsd:element name="startDateS" type="xsd:string"></xsd:element>
             <xsd:element name="finishDateS" type="xsd:string"></xsd:element>
