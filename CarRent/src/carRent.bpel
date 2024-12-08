@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="carRent"
+    targetNamespace="http://enterprise.netbeans.org/bpel/CarRent/carRent"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/CarRent/carRent"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:ns0="http://xml.netbeans.org/schema/CarRentSchema">
+    <import namespace="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" location="CarRentWSDL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/WS_customer_vehiclesWrapper" location="WS_customer_vehiclesWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://ws_customer_vehicles/" location="http://localhost:8080/WS_Customer_Vehicle/WS_customer_vehicles?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://enterprise.netbeans.org/bpel/WS_ReservationWrapper" location="WS_ReservationWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://wsreservation/" location="http://localhost:8080/WS_Reservations/WS_Reservation?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="CustomerVehicles" xmlns:tns="http://enterprise.netbeans.org/bpel/WS_customer_vehiclesWrapper" partnerLinkType="tns:WS_customer_vehiclesLinkType" partnerRole="WS_customer_vehiclesRole"/>
+        <partnerLink name="Reservations" xmlns:tns="http://enterprise.netbeans.org/bpel/WS_ReservationWrapper" partnerLinkType="tns:WS_ReservationLinkType" partnerRole="WS_ReservationRole"/>
+        <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" partnerLinkType="tns:CarRentWSDL" myRole="CarRentWSDLPortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="NoExistance" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" messageType="tns:ReservationResponse"/>
+        <variable name="NoReservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" messageType="tns:ReservationResponse"/>
+        <variable name="ReservationRequestOut" xmlns:tns="http://wsreservation/" messageType="tns:ReservationRequestResponse"/>
+        <variable name="ReservationRequestIn" xmlns:tns="http://wsreservation/" messageType="tns:ReservationRequest"/>
+        <variable name="VehicleExistanceOut" xmlns:tns="http://ws_customer_vehicles/" messageType="tns:VehicleExistanceResponse"/>
+        <variable name="VehicleExistanceIn" xmlns:tns="http://ws_customer_vehicles/" messageType="tns:VehicleExistance"/>
+        <variable name="CustomerExistanceOut" xmlns:tns="http://ws_customer_vehicles/" messageType="tns:CustomerExistanceResponse"/>
+        <variable name="CustomerExistanceIn" xmlns:tns="http://ws_customer_vehicles/" messageType="tns:CustomerExistance"/>
+        <variable name="InitialData" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" messageType="tns:ReservationRequest"/>
+    </variables>
+    <sequence>
+        <receive name="Receive1" createInstance="yes" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" portType="tns:CarRentWSDLPortType" variable="InitialData"/>
+        <assign name="Assign1">
+            <copy>
+                <from>$InitialData.ReservationInput/ns0:idCustomer</from>
+                <to>$CustomerExistanceIn.parameters/arg0</to>
+            </copy>
+            <copy>
+                <from>$InitialData.ReservationInput/ns0:idVehicle</from>
+                <to>$VehicleExistanceIn.parameters/arg0</to>
+            </copy>
+        </assign>
+        <scope name="Scope1">
+            <variables>
+                <variable name="ExistenceFault" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" messageType="tns:ReservationFault"/>
+            </variables>
+            <faultHandlers>
+                <catch>
+                    <sequence name="Sequence2">
+                        <assign name="Assign2">
+                            <copy>
+                                <from>'ExistenceFault_Vehicle_Customer'</from>
+                                <to>$ExistenceFault.ReservationFault/ns0:faultDetail</to>
+                            </copy>
+                        </assign>
+                        <reply name="Reply1" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" portType="tns:CarRentWSDLPortType" faultName="tns:fault1" variable="ExistenceFault"/>
+                    </sequence>
+                </catch>
+            </faultHandlers>
+            <sequence name="Sequence1">
+                <invoke name="Invoke1" partnerLink="CustomerVehicles" operation="CustomerExistance" xmlns:tns="http://ws_customer_vehicles/" portType="tns:WS_customer_vehicles" inputVariable="CustomerExistanceIn" outputVariable="CustomerExistanceOut"/>
+                <invoke name="Invoke2" partnerLink="CustomerVehicles" operation="VehicleExistance" xmlns:tns="http://ws_customer_vehicles/" portType="tns:WS_customer_vehicles" inputVariable="VehicleExistanceIn" outputVariable="VehicleExistanceOut"/>
+            </sequence>
+        </scope>
+        <if name="If1">
+            <condition>$VehicleExistanceOut.parameters/return and $CustomerExistanceOut.parameters/return</condition>
+            <sequence name="Sequence4">
+                <assign name="Assign3">
+                    <copy>
+                        <from>$InitialData.ReservationInput/ns0:idCustomer</from>
+                        <to>$ReservationRequestIn.parameters/customer_id</to>
+                    </copy>
+                    <copy>
+                        <from>$InitialData.ReservationInput/ns0:idVehicle</from>
+                        <to>$ReservationRequestIn.parameters/vehicle_id</to>
+                    </copy>
+                    <copy>
+                        <from>$InitialData.ReservationInput/ns0:idStore</from>
+                        <to>$ReservationRequestIn.parameters/id_Tda</to>
+                    </copy>
+                    <copy>
+                        <from>$InitialData.ReservationInput/ns0:report</from>
+                        <to>$ReservationRequestIn.parameters/report</to>
+                    </copy>
+                    <copy>
+                        <from>$InitialData.ReservationInput/ns0:startDateS</from>
+                        <to>$ReservationRequestIn.parameters/start_date</to>
+                    </copy>
+                    <copy>
+                        <from>$InitialData.ReservationInput/ns0:finishDateS</from>
+                        <to>$ReservationRequestIn.parameters/end_date</to>
+                    </copy>
+                </assign>
+                <scope name="Scope2">
+                    <variables>
+                        <variable name="IllegalArgumentException" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" messageType="tns:ReservationFault"/>
+                    </variables>
+                    <faultHandlers>
+                        <catch>
+                            <sequence name="Sequence7">
+                                <assign name="Assign7">
+                                    <copy>
+                                        <from>'IllegalArgumentException'</from>
+                                        <to>$IllegalArgumentException.ReservationFault/ns0:faultDetail</to>
+                                    </copy>
+                                </assign>
+                                <reply name="Reply5" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" portType="tns:CarRentWSDLPortType" faultName="tns:fault1" variable="IllegalArgumentException"/>
+                            </sequence>
+                        </catch>
+                    </faultHandlers>
+                    <invoke name="Invoke3" partnerLink="Reservations" operation="ReservationRequest" xmlns:tns="http://wsreservation/" portType="tns:WS_Reservation" inputVariable="ReservationRequestIn" outputVariable="ReservationRequestOut"></invoke>
+                </scope>
+                <if name="If2">
+                    <condition>$ReservationRequestOut.parameters/return</condition>
+                    <sequence name="Sequence6">
+                        <assign name="Assign5">
+                            <copy>
+                                <from>'Authorized reservation'</from>
+                                <to>$NoReservation.ReservationOutput/ns0:Authorization</to>
+                            </copy>
+                        </assign>
+                        <reply name="Reply4" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" portType="tns:CarRentWSDLPortType" variable="NoReservation"/>
+                    </sequence>
+                    <else>
+                        <sequence name="Sequence5">
+                            <assign name="Assign6">
+                                <copy>
+                                    <from>'Reservation rejected'</from>
+                                    <to>$NoReservation.ReservationOutput/ns0:Authorization</to>
+                                </copy>
+                            </assign>
+                            <reply name="Reply3" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" portType="tns:CarRentWSDLPortType" variable="NoReservation"/>
+                        </sequence>
+                    </else>
+                </if>
+            </sequence>
+            <else>
+                <sequence name="Sequence3">
+                    <assign name="Assign4">
+                        <copy>
+                            <from>'Existence error'</from>
+                            <to>$NoExistance.ReservationOutput/ns0:Authorization</to>
+                        </copy>
+                    </assign>
+                    <reply name="Reply2" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" portType="tns:CarRentWSDLPortType" variable="NoExistance"/>
+                </sequence>
+            </else>
+        </if>
+    </sequence>
+</process>

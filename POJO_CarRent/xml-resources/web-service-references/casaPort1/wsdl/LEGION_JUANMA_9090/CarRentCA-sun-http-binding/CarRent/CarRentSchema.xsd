@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:tns="http://xml.netbeans.org/schema/CarRentSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://xml.netbeans.org/schema/CarRentSchema">
+    <xsd:complexType name="InputComplexType">
+        <xsd:sequence>
+            <xsd:element name="idCustomer" type="xsd:int"/>
+            <xsd:element name="idVehicle" type="xsd:int"/>
+            <xsd:element name="idStore" type="xsd:int"/>
+            <xsd:element name="report" type="xsd:string"/>
+            <xsd:element name="startDateS" type="xsd:string"/>
+            <xsd:element name="finishDateS" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="OutputComplexType">
+        <xsd:sequence>
+            <xsd:element name="Authorization" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="faultComplexType">
+        <xsd:sequence>
+            <xsd:element name="faultDetail" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="myInput" type="tns:InputComplexType"/>
+    <xsd:element name="myOutput" type="tns:OutputComplexType"/>
+    <xsd:element name="myFault" type="tns:faultComplexType"/>
+</xsd:schema>

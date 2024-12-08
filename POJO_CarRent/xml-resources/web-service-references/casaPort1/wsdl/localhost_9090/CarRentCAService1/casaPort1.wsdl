@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="CarRentCA" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="CarRentCA">
+  <import location="http://LEGION_JUANMA:9090/CarRentCA-sun-http-binding/CarRent/CarRentWSDL.wsdl" namespace="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL">
+    </import>
+  <portType name="dummyCasaPortType">
+  </portType>
+  <binding name="casaBinding1" type="ns:CarRentWSDLPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="Reservation">
+      <soap:operation/>
+      <input name="input1">
+        <soap:body use="literal"/>
+      </input>
+      <output name="output1">
+        <soap:body use="literal"/>
+      </output>
+      <fault name="fault1">
+        <soap:fault name="fault1" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="CarRentCAService1">
+    <port binding="tns:casaBinding1" name="casaPort1">
+      <soap:address location="http://LEGION_JUANMA:9090/CarRentCAService1/casaPort1"/>
+    </port>
+  </service>
+</definitions>
