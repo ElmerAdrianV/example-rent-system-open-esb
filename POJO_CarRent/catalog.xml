@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:9090/CarRentCAService1/casaPort1?WSDL" uri="xml-resources/web-service-references/casaPort1/wsdl/localhost_9090/CarRentCAService1/casaPort1.wsdl"/>
+    <system systemId="http://LEGION_JUANMA:9090/CarRentCA-sun-http-binding/CarRent/CarRentWSDL.wsdl" uri="xml-resources/web-service-references/casaPort1/wsdl/LEGION_JUANMA_9090/CarRentCA-sun-http-binding/CarRent/CarRentWSDL.wsdl"/>
+    <system systemId="http://LEGION_JUANMA:9090/CarRentCA-sun-http-binding/CarRent/CarRentSchema.xsd" uri="xml-resources/web-service-references/casaPort1/wsdl/LEGION_JUANMA_9090/CarRentCA-sun-http-binding/CarRent/CarRentSchema.xsd"/>
+</catalog>
