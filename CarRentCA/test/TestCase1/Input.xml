@@ -1,0 +1,12 @@
+<soapenv:Envelope xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:car="http://xml.netbeans.org/schema/CarRentSchema">
+  <soapenv:Body>
+    <car:myInput>
+      <car:idCustomer>1</car:idCustomer>
+      <car:idVehicle>1</car:idVehicle>
+      <car:idStore>1</car:idStore>
+      <car:startDate>2024-09-08</car:startDate>
+      <car:finishDate>2024-09-18?</car:finishDate>
+      <car:report>PruebaBpel</car:report>
+    </car:myInput>
+  </soapenv:Body>
+</soapenv:Envelope>

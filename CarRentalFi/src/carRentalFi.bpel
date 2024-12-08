@@ -33,14 +33,19 @@
         <variable name="ValidationRequest" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" messageType="tns:ReservationRequest"/>
     </variables>
     <sequence>
-        <receive name="Receive1" createInstance="yes" partnerLink="PartnerLink1" operation="Reservation" xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" portType="tns:myCarRentalFiPortType" variable="ValidationRequest"/>
+        <receive name="Receive1" createInstance="yes" 
+                 partnerLink="PartnerLink1" 
+                 operation="Reservation" 
+                 xmlns:tns="http://j2ee.netbeans.org/wsdl/CarRentalFi/src/myCarRentalFi" 
+                 portType="tns:myCarRentalFiPortType" 
+                 variable="ValidationRequest"/>
         <assign name="Assign1">
             <copy>
-                    <from>$ValidationRequest.InitialValidationRequest/ns0:idCustomer</from>
+                    <from>$ValidationRequest.InitialValidationRequest/idCustomer</from>
                         <to>$CustomerExistanceIn.parameters/arg0</to>
                 </copy>
                 <copy>
-                    <from>$ValidationRequest.InitialValidationRequest/ns0:idVehicle</from>
+                    <from>$ValidationRequest.InitialValidationRequest/idVehicle</from>
                         <to>$VehicleExistanceIn.parameters/arg0</to>
                 </copy>
         </assign>
