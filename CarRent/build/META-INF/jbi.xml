@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns0="http://enterprise.netbeans.org/bpel/CarRent/carRent" xmlns:ns1="http://ws_customer_vehicles/" xmlns:ns2="http://wsreservation/" xmlns:ns3="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" xmlns:ns4="http://www.sun.com/jbi/descriptor/service-unit" version="1.0">
+    <services binding-component="false">
+        <provides endpoint-name="CarRentWSDLPortTypeRole_myRole" interface-name="ns3:CarRentWSDLPortType" service-name="ns0:PartnerLink1">
+            <ns4:display-name>PartnerLink1</ns4:display-name>
+            <ns4:process-name>carRent</ns4:process-name>
+            <ns4:file-path>carRent.bpel</ns4:file-path>
+        </provides>
+        <consumes endpoint-name="WS_customer_vehiclesRole_partnerRole" interface-name="ns1:WS_customer_vehicles" service-name="ns0:CustomerVehicles">
+            <ns4:display-name>CustomerVehicles</ns4:display-name>
+            <ns4:process-name>carRent</ns4:process-name>
+            <ns4:file-path>carRent.bpel</ns4:file-path>
+        </consumes>
+        <consumes endpoint-name="WS_ReservationRole_partnerRole" interface-name="ns2:WS_Reservation" service-name="ns0:Reservations">
+            <ns4:display-name>Reservations</ns4:display-name>
+            <ns4:process-name>carRent</ns4:process-name>
+            <ns4:file-path>carRent.bpel</ns4:file-path>
+        </consumes>
+    </services>
+</jbi>

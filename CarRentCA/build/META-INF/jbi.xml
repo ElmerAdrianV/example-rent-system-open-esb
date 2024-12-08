@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns1="CarRentCA" xmlns:ns2="http://enterprise.netbeans.org/bpel/CarRent/carRent" xmlns:ns3="http://wsreservation/" xmlns:ns4="http://ws_customer_vehicles/" xmlns:ns5="http://j2ee.netbeans.org/wsdl/CarRent/src/CarRentWSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/jbi ./jbi.xsd">
+    <service-assembly>
+        <identification>
+            <name>CarRentCA</name>
+            <description>Represents the Service Assembly of CarRentCA</description>
+        </identification>
+        <service-unit>
+            <identification>
+                <name>CarRentCA-CarRent</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>CarRent.jar</artifacts-zip>
+                <component-name>sun-bpel-engine</component-name>
+            </target>
+        </service-unit>
+        <service-unit>
+            <identification>
+                <name>CarRentCA-sun-http-binding</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>sun-http-binding.jar</artifacts-zip>
+                <component-name>sun-http-binding</component-name>
+            </target>
+        </service-unit>
+        <connections>
+            <connection>
+                <consumer endpoint-name="casaPort1" service-name="ns1:CarRentCAService1"/>
+                <provider endpoint-name="CarRentWSDLPortTypeRole_myRole" service-name="ns2:PartnerLink1"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="WS_ReservationRole_partnerRole" service-name="ns2:Reservations"/>
+                <provider endpoint-name="WS_ReservationPort" service-name="ns3:WS_Reservation"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="WS_customer_vehiclesRole_partnerRole" service-name="ns2:CustomerVehicles"/>
+                <provider endpoint-name="WS_customer_vehiclesPort" service-name="ns4:WS_customer_vehicles"/>
+            </connection>
+        </connections>
+        <route-types xmlns="http://www.open-esb.net/xml/ns/jbi">
+            <source endpoint-name="casaPort1" mode="local" routing-rule="default" service-name="ns1:CarRentCAService1">direct</source>
+            <source endpoint-name="WS_ReservationRole_partnerRole" mode="local" routing-rule="default" service-name="ns2:Reservations">direct</source>
+            <source endpoint-name="WS_customer_vehiclesRole_partnerRole" mode="local" routing-rule="default" service-name="ns2:CustomerVehicles">direct</source>
+        </route-types>
+        <interface-mapping xmlns="http://www.open-esb.net/xml/ns/jbi">
+            <implementation>
+                <by-provider endpoint-name="CarRentWSDLPortTypeRole_myRole" service-name="ns2:PartnerLink1"/>
+                <interface name="ns5:CarRentWSDLPortType"/>
+            </implementation>
+            <implementation>
+                <by-provider endpoint-name="WS_ReservationPort" service-name="ns3:WS_Reservation"/>
+                <interface name="ns3:WS_Reservation"/>
+            </implementation>
+            <implementation>
+                <by-provider endpoint-name="WS_customer_vehiclesPort" service-name="ns4:WS_customer_vehicles"/>
+                <interface name="ns4:WS_customer_vehicles"/>
+            </implementation>
+        </interface-mapping>
+    </service-assembly>
+</jbi>

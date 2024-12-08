@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WS_customer_vehiclesWrapper" targetNamespace="http://enterprise.netbeans.org/bpel/WS_customer_vehiclesWrapper" xmlns:tns="http://enterprise.netbeans.org/bpel/WS_customer_vehiclesWrapper" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns="http://ws_customer_vehicles/">
+    <import location="http://localhost:8080/WS_Customer_Vehicle/WS_customer_vehicles?WSDL" namespace="http://ws_customer_vehicles/"/>
+    <plnk:partnerLinkType name="WS_customer_vehiclesLinkType">
+        <plnk:role name="WS_customer_vehiclesRole" portType="ns:WS_customer_vehicles"/>
+    </plnk:partnerLinkType>
+</definitions>
