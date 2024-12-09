@@ -32,7 +32,7 @@ public class Clte_des
        try 
         {
              objServ = (interfazservicioestres.InterfazServiciosEstres)
-                     Class.forName("pojo_carrent.POJO_CarRent").newInstance();
+                     Class.forName("pojo_ws_customer_vehicle.POJO_WS_Customer_Vehicle").newInstance();
             
              Registry registry = LocateRegistry.getRegistry(host);
              IServDisparo servDisparo = (IServDisparo) registry.lookup("ServidorDeDisparo");

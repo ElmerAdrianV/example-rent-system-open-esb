@@ -10,7 +10,7 @@ rem ====================================================
 
 set cb=%cd%\tstRMI_desacoplado.jar
 set JAR_INTERFAZ=InterfazServicioEstres.jar
-set JAR_CLTE_ESTRESS=POJO_CarRent.jar
+set JAR_CLTE_ESTRESS=POJO_WS_Customer_Vehicle.jar
 set POJO_ESTRESS=Clte_des
 
 rem ====================================================
