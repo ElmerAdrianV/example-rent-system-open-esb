@@ -34,12 +34,13 @@ public class POJO_CarRent {
         long t0 = System.currentTimeMillis();
 
         for(int i=0; i<VECES; i++){
-            int idCustomer    = random.nextInt(10);
-            int idVehicle     = random.nextInt(10);
+            int idCustomer    = random.nextInt(4);
+            int idVehicle     = random.nextInt(4);
             int idStore       = random.nextInt(5);
             String report     = "Prueba " + i + " con BPEL";
-            String startDate  = "2024-" + random.nextInt(12) + "-" + random.nextInt(28);
-            String finishDate = "2024-" + random.nextInt(12) + "-" + random.nextInt(28);
+            String startDate  = "2024-" + (random.nextInt(6) + 1) + "-" + (random.nextInt(27)+1);
+            String finishDate = "2024-" + (random.nextInt(4) + 8) + "-" + (random.nextInt(27)+1);
+            System.out.println("Customer Id: "+ idCustomer +", fecha ini: "+ startDate+", fecha fin: "+ finishDate);
             
             input.setIdCustomer(idCustomer);
             input.setIdVehicle(idVehicle);
@@ -54,11 +55,11 @@ public class POJO_CarRent {
             } catch (ReservationFault ex) {
                 System.out.println("Reservation could not be made." + "\n");
             }
+
+        }
         long t1 = System.currentTimeMillis();
         double deltaT = 1e-3 * (t1-t0);
         System.out.println("Veces: " + VECES + " deltaT: " + deltaT + "segundos."); 
-        }
-   
     }
 
     private static OutputComplexType reservation(carrent.InputComplexType reservationInput) throws ReservationFault {
