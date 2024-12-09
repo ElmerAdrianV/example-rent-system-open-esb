@@ -58,7 +58,8 @@
 <operation name="VehicleExistance">
 <input wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/VehicleExistanceRequest" message="tns:VehicleExistance"/>
 <output wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/VehicleExistanceResponse" message="tns:VehicleExistanceResponse"/>
-<fault message="tns:VehicleExistanceException" name="VehicleExistanceException" wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/VehicleExistance/Fault/VehicleExistanceException"/>
+<fault message="tns:VehicleExistanceException" name="VehicleExistanceException" 
+       wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/VehicleExistance/Fault/VehicleExistanceException"/>
 </operation>
 <operation name="ver_coches">
 <input wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/ver_cochesRequest" message="tns:ver_coches"/>
@@ -71,7 +72,8 @@
 <operation name="CustomerExistance">
 <input wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/CustomerExistanceRequest" message="tns:CustomerExistance"/>
 <output wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/CustomerExistanceResponse" message="tns:CustomerExistanceResponse"/>
-<fault message="tns:CustomerExistanceException" name="CustomerExistanceException" wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/CustomerExistance/Fault/CustomerExistanceException"/>
+<fault message="tns:CustomerExistanceException" name="CustomerExistanceException" 
+       wsam:Action="http://ws_customer_vehicles/WS_customer_vehicles/CustomerExistance/Fault/CustomerExistanceException"/>
 </operation>
 </portType>
 <binding name="WS_customer_vehiclesPortBinding" type="tns:WS_customer_vehicles">

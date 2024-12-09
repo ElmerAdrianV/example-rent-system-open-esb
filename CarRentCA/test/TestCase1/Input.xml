@@ -4,9 +4,9 @@
       <car:idCustomer>1</car:idCustomer>
       <car:idVehicle>1</car:idVehicle>
       <car:idStore>1</car:idStore>
-      <car:startDate>2024-09-08</car:startDate>
-      <car:finishDate>2024-09-18?</car:finishDate>
-      <car:report>PruebaBpel</car:report>
+      <car:report>PruebaCasi</car:report>
+      <car:startDateS>2024-05-10</car:startDateS>
+      <car:finishDateS>2024-05-16</car:finishDateS>
     </car:myInput>
   </soapenv:Body>
 </soapenv:Envelope>
